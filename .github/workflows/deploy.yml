@@ -1,0 +1,22 @@
+name: Deploy
+on:
+  push:
+    branches:
+    - master
+jobs:
+  deploy:
+    name: "Deploy website"
+    steps:
+    - uses: actions/checkout@v1.0.0
+    - name: Build
+      run: |
+        npm install
+        npm run build
+    - name: Deploy
+      run: |
+        cd docs/.vuepress/dist
+      # echo 'assemblyscript.org' > CNAME
+        git init
+        git add -A
+        git commit -m 'deploy'
+        git push -f git@github.com:${GITHUB_ACTOR}:${GITHUB_TOKEN}/${GITHUB_REPOSITORY}.git master:gh-pages

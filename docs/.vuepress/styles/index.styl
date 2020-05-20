@@ -1,0 +1,46 @@
+.content {
+  font-size 30px;
+}
+.sidebar {
+  background: #fafbfc;
+}
+
+// prism customization
+
+@import "~prism-themes/themes/prism-vs.css"
+
+.theme-default-content pre code,
+.theme-default-content pre[class*="language-"] code {
+  color: #222;
+  font-size: 1em;
+}
+
+div[class*="language-"]:before {
+  color: #fff;
+  background: #bbb;
+  padding: 1px 4px 3px 5px;
+}
+
+div[class~="language-ts"]:before,
+div[class~="language-typescript"]:before {
+  color: #fff;
+  background: #007acc;
+}
+
+div[class~="language-js"]:before,
+div[class~="language-javascript"]:before {
+  color: #323330;
+  background: #f0db4f;
+}
+
+div[class~="language-sh"]:before,
+div[class~="language-bash"]:before {
+  color: #fff;
+  background: #000;
+}
+
+div[class~="language-wat"]:before,
+div[class~="language-webassembly"]:before {
+  color: #fff;
+  background: #654ff0;
+}
