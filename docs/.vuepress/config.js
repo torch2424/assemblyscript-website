@@ -1,6 +1,9 @@
 const MonacoEditorPlugin = require('monaco-editor-webpack-plugin')
 
 module.exports = {
+  base: process.env.GH_ACTIONS
+    ? '/assemblyscript-website/'
+    : '/',
   locales: {
     '/': {
       lang: 'en-US',

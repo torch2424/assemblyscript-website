@@ -15,6 +15,7 @@ jobs:
     - name: Build
       run: |
         npm ci --no-audit
+        export GH_ACTIONS=1
         npm run build
     - name: Deploy
       env:
