@@ -9,6 +9,14 @@
 
 @import "~prism-themes/themes/prism-vs.css"
 
+.token.builtin {
+  color: #36acaa;
+}
+
+.token.comment {
+  font-style: normal;
+}
+
 .theme-default-content pre code,
 .theme-default-content pre[class*="language-"] code {
   color: #222;
@@ -43,4 +51,20 @@ div[class~="language-wat"]:before,
 div[class~="language-webassembly"]:before {
   color: #fff;
   background: #654ff0;
+}
+
+div[class~="language-html"]:before {
+  color: #fff;
+  background: #e44d26;
+}
+
+// API docs: <li> starting with code block
+
+.theme-default-content li div[class*="language-"]:first-child pre[class*="language-"] {
+  border: 0;
+  padding: 0;
+  font-size: 1.1em;
+}
+.theme-default-content li div[class*="language-"]:first-child:before {
+  display: none;
 }

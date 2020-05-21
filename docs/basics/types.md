@@ -1,3 +1,7 @@
+---
+description: When one number just doesn't cut it.
+---
+
 # Types
 
 Instead of using the `number` type for all sorts of numeric values, AssemblyScript inherits WebAssembly's more specific integer and floating point types:
@@ -11,17 +15,19 @@ Instead of using the `number` type for all sorts of numeric values, AssemblyScri
 | `f32`               | f32              | A 32-bit float.
 | `f64`               | f64              | A 64-bit float.
 | `v128`              | v128             | A 128-bit vector 🦄.
-| **Small types**     |
+| `anyref`            | anyref           | An opaque host reference 🦄.
+| **Small integer types**                |
 | `i8`                | i32              | An 8-bit signed integer.
 | `u8`                | i32              | An 8-bit unsigned integer.
 | `i16`               | i32              | A 16-bit signed integer.
 | `u16`               | i32              | A 16-bit unsigned integer.
 | `bool`              | i32              | A 1-bit unsigned integer.
-| **Special types**   |
+| **Variable integer types**             |
 | `isize`             | i32 or i64       | A 32-bit signed integer in WASM32.<br />A 64-bit signed integer in WASM64 🦄.
 | `usize`             | i32 or i64       | A 32-bit unsigned integer in WASM32.<br />A 64-bit unsigned integer in WASM64 🦄.
+| **Special types**                      |
 | `void`              | -                | Indicates no return value.
-| `anyref`            | anyref           | An opaque host reference 🦄.
+| `auto`              | ?                | Makes an educated guess. Internal only.
 
 ## Type rules
 

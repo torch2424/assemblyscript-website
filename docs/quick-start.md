@@ -1,4 +1,5 @@
 ---
+description: Paving the way to what might be your first WebAssembly module.
 sidebarDepth: 0
 ---
 
@@ -16,7 +17,7 @@ To get started with AssemblyScript, switch to a new directory and initialize a n
 npm init
 ```
 
-Now install both the [loader](loader) and the [compiler](compiler) using npm. Let's assume that the compiler is not required in production and make it a development dependency:
+Now install both the [loader](basics/loader.md) and the [compiler](details/compiler.md) using npm. Let's assume that the compiler is not required in production and make it a development dependency:
 
 ```bash
 npm install --save @assemblyscript/loader
@@ -50,4 +51,4 @@ npm run asbuild
 
 ## Next steps
 
-Using `index.js` in the root directory of your package to instantiate and export the WebAssembly module you'll then be able to `require`it just like any other node module, with the notable difference that the only values your module's exports understand being integers and floats. [Read on to learn more!](basics)
+Using `index.js` in the root directory of your package to instantiate and export the WebAssembly module you'll then be able to `require`it just like any other node module, with the notable difference that the only values your module's exports understand being integers and floats. Read on to learn more!

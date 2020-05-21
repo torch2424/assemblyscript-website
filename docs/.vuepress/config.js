@@ -14,9 +14,75 @@ module.exports = {
   themeConfig: {
     logo: '/images/icon.svg',
     nav: [
-      { text: 'Quick start', link: '/quick-start' },
-      { text: 'The Basics', link: '/basics/' },
-      { text: 'The Details', link: '/details/' }
+      {
+        text: 'Quick start',
+        link: '/quick-start'
+      },
+      {
+        text: 'The Basics',
+        link: '/basics/'
+      },
+      {
+        text: 'The Details',
+        link: '/details/'
+      },
+      {
+        text: 'Standard library',
+        items: [
+          {
+            text: 'Globals',
+            link: '/standard-library/globals'
+          },
+          {
+            text: 'Array',
+            link: '/standard-library/array'
+          },
+          {
+            text: 'ArrayBuffer',
+            link: '/standard-library/arraybuffer'
+          },
+          {
+            text: 'DataView',
+            link: '/standard-library/dataview'
+          },
+          {
+            text: 'Date',
+            link: '/standard-library/date'
+          },
+          {
+            text: 'Error',
+            link: '/standard-library/error'
+          },
+          {
+            text: 'Map',
+            link: '/standard-library/map'
+          },
+          {
+            text: 'Math',
+            link: '/standard-library/math'
+          },
+          {
+            text: 'Number',
+            link: '/standard-library/number'
+          },
+          {
+            text: 'Set',
+            link: '/standard-library/set'
+          },
+          {
+            text: 'StaticArray ✨',
+            link: '/standard-library/staticarray'
+          },
+          {
+            text: 'String',
+            link: '/standard-library/string'
+          },
+          {
+            text: 'TypedArray',
+            link: '/standard-library/typedarray'
+          }
+        ]
+      }
     ],
     repo: 'AssemblyScript/assemblyscript',
     repoLabel: 'AssemblyScript on GitHub',
@@ -28,6 +94,8 @@ module.exports = {
 
     smoothScroll: true,
     sidebar: {
+      '/standard-library/': [
+      ],
       '/': [
         'introduction',
         'quick-start',
@@ -58,17 +126,22 @@ module.exports = {
             'details/transforms'
           ]
         },
-        'faq'
+        'faq',
+        'built-with-assemblyscript'
       ]
     },
-    sidebarDepth: 2
+    sidebarDepth: 1
   },
   evergreen: true,
   extraWatchFiles: [
     '**/*.md',
-    '.vuepress/components/**/*.vue'
+    "**/*.vue"
+  ],
+  plugins: [
+    require('./plugin')
   ],
   chainWebpack(config, isServer) {
+    if (isServer) return
     config
       .plugin('monaco')
       .use(MonacoEditorPlugin, [
@@ -76,5 +149,8 @@ module.exports = {
           languages: ['typescript']
         }
       ])
-  },
+    config
+      .entry('custom')
+      .add('./docs/.vuepress/index.js')
+  }
 }
