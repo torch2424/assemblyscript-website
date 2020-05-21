@@ -11,6 +11,17 @@ module.exports = {
       description: 'Definitely not a TypeScript to WebAssembly compiler 🚀',
     }
   },
+  head: [
+    ['link', { rel: "apple-touch-icon", sizes: "180x180", href: "/favicons/apple-touch-icon.png"} ],
+    ['link', { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicons/favicon-32x32.png"} ],
+    ['link', { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicons/favicon-16x16.png"} ],
+    ['link', { rel: "manifest", href: "/site.webmanifest"} ],
+    ['link', { rel: "mask-icon", href: "/favicons/safari-pinned-tab.svg", color: "#007acc"} ],
+    ['link', { rel: "shortcut icon", href: "/favicon.ico"} ],
+    ['meta', { name: "msapplication-TileColor", content: "#ffffff"} ],
+    ['meta', { name: "msapplication-config", content: "/browserconfig.xml"} ],
+    ['meta', { name: "theme-color", content: "#ffffff"} ],
+  ],
   themeConfig: {
     logo: '/images/icon.svg',
     nav: [
@@ -112,7 +123,6 @@ module.exports = {
         },
         {
           title: 'The Details',
-          path: '/details/',
           collapsable: false,
           children: [
             'details/compiler',
