@@ -63,6 +63,6 @@ export function fib(n: i32): i32 {
 
 <div class="hero">
   <p class="action">
-    <a href="/quick-start.html" class="nav-link action-button">Ready for a ride? Install locally!</a>
+    <a href="./quick-start.html" class="nav-link action-button">Ready for a ride? Install locally!</a>
   </p>
 </div>
