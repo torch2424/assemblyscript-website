@@ -8,7 +8,7 @@ A WebAssembly environment is more limited than a usual browser environment. Asse
 
 ## Standard library
 
-AssemblyScript comes with its own [standard library](../standard-library/index.md) very much resembling what developers became used to when writing JavaScript, with a few specialized classes, like `StaticArray`, that exist in AssemblyScript only to tackle very specific problems.
+AssemblyScript comes with its own [standard library](./stdlib/globals.md) very much resembling what developers became used to when writing JavaScript, with a few specialized classes, like `StaticArray`, that exist in AssemblyScript only to tackle very specific problems.
 
 Additional rather low-level WebAssembly functionality that the standard library makes extensive use of is described below.
 

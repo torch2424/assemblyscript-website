@@ -12,7 +12,7 @@ Besides the full standard library, AssemblyScript provides a portable variant of
 
 To use the portable library, add the following somewhere along your build step so the portable features are present in the environment
 
-```javascript
+```js
 require("assemblyscript/std/portable")
 ```
 
@@ -30,7 +30,7 @@ There are a few semantics differences that must be taken care of.
 
 While `asc` understands the meaning of
 
-```typescript
+```ts
 // non-portable
 let someFloat: f32 = 1.5
 let someInt: i32 = <i32>someFloat
@@ -38,14 +38,14 @@ let someInt: i32 = <i32>someFloat
 
 and then inserts the correct conversion steps, `tsc` does not because all numeric types are just aliases of `number`. Hence, when targeting JavaScript with `tsc`, the above will result in
 
-```javascript
+```js
 var someFloat = 1.5
 var someInt = someFloat
 ```
 
 which is obviously wrong. To account for this, portable conversions can be used, resulting in actually portable code. For example
 
-```typescript
+```ts
 // portable
 let someFloat: f32 = 1.5
 let someInt: i32 = i32(someFloat)
@@ -53,7 +53,7 @@ let someInt: i32 = i32(someFloat)
 
 will essentially result in
 
-```javascript
+```js
 var someFloat = 1.5
 var someInt = someFloat | 0
 ```
@@ -64,13 +64,13 @@ which is correct. The best way of dealing with this is asking yourself the quest
 
 Likewise, again because `asc` knows the meaning but `tsc` does not, overflows must be handled explicitly:
 
-```typescript
+```ts
 // non-portable
 let someU8: u8 = 255
 let someOtherU8: u8 = someU8 + 1
 ```
 
-```typescript
+```ts
 // portable
 let someU8: u8 = 255
 let someOtherU8: u8 = u8(someU8 + 1)
@@ -78,7 +78,7 @@ let someOtherU8: u8 = u8(someU8 + 1)
 
 essentially resulting in
 
-```javascript
+```js
 let someU8 = 255
 let someOtherU8 = (someU8 + 1) & 0xff
 ```

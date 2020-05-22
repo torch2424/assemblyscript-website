@@ -30,7 +30,7 @@ By default, the compiler will preserve any `assert(expression)`s in a module, le
 
 As mentioned above, assertions require that an implementation of the `abort` interface is present, which by default is imported as `abort` from within the `env` module, handling aborts externally. This can be overridden by specifying a custom abort handler through `--use abort=assembly/index/myAbort` \(here: a function named `myAbort` in `assembly/index.ts`\) or the abort interface can be disabled completely \(just trapping with an `unreachable`\) through `--use abort=`. The signature of the abort function, if overridden, is:
 
-```typescript
+```ts
 function abort(
   message: string | null,
   fileName: string | null,
@@ -43,13 +43,13 @@ function abort(
 
 The standard library provides a relatively basic `trace` utility function that is imported from the host and understood by the [loader](../basics/loader.md). For example
 
-```typescript
+```ts
 trace("HERE", 2, value, otherValue)
 ```
 
 will, by default, call the `trace` function imported from the `env` module with a string message and two arbitrary values that can be anything convertible to an `f64`. The loader for example will log the output to console. Similar to [overriding abort](./debugging.md#overriding-abort), the implementation can be overridden using the `--use` compiler option. Signature of the trace function is:
 
-```typescript
+```ts
 function trace(
   message: string,
   n: i32 = 0, // number of given parameters a0 to a4

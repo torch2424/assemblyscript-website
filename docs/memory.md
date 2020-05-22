@@ -79,7 +79,7 @@ The most basic objects using the common header are `ArrayBuffer` and `String`. T
 | ...   |        |           |
 | \[N\] | N << 1 | u16       | The N-th character
 
-Unlike other languages, strings in AssemblyScript use UTF-16 encoding to match common JavaScript APIs in an attempt to avoid re-encoding on every JS-API call. While this helps to reduce the overhead when talking to the host, it can introduce some overhead when integrating AssemblyScript into a C environment where using UTF-16 is not an option \([see also](../standard-library/string.md#utf-16-vs-utf-8)\).
+Unlike other languages, strings in AssemblyScript use UTF-16 encoding to match common JavaScript APIs in an attempt to avoid re-encoding on every JS-API call. While this helps to reduce the overhead when talking to the host, it can introduce some overhead when integrating AssemblyScript into a C environment where using UTF-16 is not an option \([see also](./stdlib/string.md#utf-16-vs-utf-8)\).
 
 Collections like `Array`, `Map` and `Set` use one or multiple `ArrayBuffer`s to store their data, but the backing buffer is exposed by the typed array views only because other collections can grow automatically, which would otherwise lead to no longer valid references sticking around.
 

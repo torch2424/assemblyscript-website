@@ -1,25 +1,35 @@
 ---
+title: AssemblyScript
+description: Definitely not a TypeScript to WebAssembly compiler 🚀
 layout: Frontpage
 home: true
-heroImage: /images/logo.png
+heroImage: /images/logo.svg
 heroText: null
 tagline: A language made for the modern Web.
 actionText: Get Started →
 actionLink: /introduction
-features:
-- title: Designed for WebAssembly
-  details: AssemblyScript targets WebAssembly specifically, giving developers full control over their code.
-- title: Familiar TypeScript syntax
-  details: It's a strict variant of TypeScript, making it easy to compile to WebAssembly without learning a new language.
-- title: Right at your fingertips
-  details: Due to its integration with the existing Web ecosystem, all you need to get going is to run `npm install`.
 footer: Apache-2.0 | Copyright © 2020 The AssemblyScript Project
 ---
+
+<div class="features">
+  <div class="feature">
+    <h2>Designed for WebAssembly</h2>
+    <p>AssemblyScript targets WebAssembly specifically, giving developers full control over their code.</p>
+  </div>
+  <div class="feature">
+    <h2>Familiar TypeScript syntax</h2>
+    <p>It's a strict variant of TypeScript, making it easy to compile to WebAssembly without learning a new language.</p>
+  </div>
+  <div class="feature">
+    <h2>Right at your fingertips</h2>
+    <p>Due to its integration with the existing Web ecosystem, all you need to get going is to run `npm install`.</p>
+  </div>
+</div>
 
 ---
 
 <p align="center">
-  <strong>Sponsors and backers</strong><br /><br />
+  <strong>Thanks to our sponsors and backers!</strong><br /><br />
   <a href="https://opencollective.com/assemblyscript/tiers/sponsor/0/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/0/avatar.svg"></a>
   <a href="https://opencollective.com/assemblyscript/tiers/sponsor/1/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/1/avatar.svg"></a>
   <a href="https://opencollective.com/assemblyscript/tiers/sponsor/2/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/2/avatar.svg"></a>
@@ -35,8 +45,7 @@ footer: Apache-2.0 | Copyright © 2020 The AssemblyScript Project
 <p align="center">
   <a href="https://opencollective.com/assemblyscript#backers" target="_blank"><img src="https://opencollective.com/assemblyscript/backer.svg?avatarHeight=44" /></a>
 </p>
-
----
+<br />
 
 ## Try it out!
 
@@ -51,3 +60,9 @@ export function fib(n: i32): i32 {
 }
 ```
 </Editor>
+
+<div class="hero">
+  <p class="action">
+    <a href="/quick-start.html" class="nav-link action-button">Ready for a ride? Install locally!</a>
+  </p>
+</div>

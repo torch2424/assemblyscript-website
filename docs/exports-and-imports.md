@@ -12,7 +12,7 @@ Exports work very much like in TypeScript, with the notable difference that expo
 
 ### Functions
 
-```typescript
+```ts
 export function add(a: i32, b: i32): i32 {
   return a + b
 }
@@ -20,7 +20,7 @@ export function add(a: i32, b: i32): i32 {
 
 ### Globals
 
-```typescript
+```ts
 export const foo = 1
 export var bar = 2
 ```
@@ -31,7 +31,7 @@ Exporting or importing mutable globals requires that the engine supports the pos
 
 If an entire class \(possibly part of a namespace\) is exported from an entry file, its visible members will become distinct module exports using a JSDoc-like naming scheme that [the loader](./loader.md) understands to make a nice object structure of. For example
 
-```typescript
+```ts
 export namespace foo {
   export class Bar {
     a: i32 = 1
@@ -49,7 +49,7 @@ will yield the raw function exports
 
 which the loader combines back to a `foo.Bar` object:
 
-```javascript
+```js
 var bar = new myModule.foo.Bar()
 bar.a = 2
 console.log(bar.a)
@@ -57,7 +57,7 @@ console.log(bar.a)
 
 Under the hood and without the loader, it'd look like this:
 
-```javascript
+```js
 var thisBar = myModule["foo.Bar#constructor"](0)
 myModule["foo.Bar#set:a"](thisBar, 2)
 console.log(myModule["foo.Bar#get:a"](thisBar))
@@ -69,14 +69,14 @@ As one can see the `this` argument must be provided as an additional first argum
 
 With [WebAssembly ES Module Integration](https://github.com/WebAssembly/esm-integration) still in the pipeline, imports utilize the ambient context currently. For example
 
-```typescript
+```ts
 // env.ts
 export declare function doSomething(foo: i32): void
 ```
 
 creates an import of a function named `doSomething` from the `env` module, because that's the name of the file it lives is. It is also possible to use namespaces:
 
-```typescript
+```ts
 // foo.ts
 export declare namespace console {
   export function logi(i: i32): void
@@ -88,7 +88,7 @@ This will import the functions `console.logi` and `console.logf` from the `foo` 
 
 A typical pattern is to `declare` the interface of each external module in its own file, using the name of the module as its file name, so the external module can be imported as if it was just another source file:
 
-```typescript
+```ts
 import { doSomething } from "./env";
 import { console } from "./foo";
 ```
@@ -97,7 +97,7 @@ import { console } from "./foo";
 
 Where automatic naming is not sufficient, the `@external` decorator can be used to give an element another external name:
 
-```typescript
+```ts
 // bar.ts
 @external("doSomethingElse")
 export declare function doSomething(foo: i32): void
@@ -115,11 +115,11 @@ More complex values than the basic integer and floating point types, like class 
 * An **instance of a class** is a pointer to the structure in WebAssembly memory.
 * A **function reference** is the index of the function in the WebAssembly table.
 
-This is true in both directions, hence also applies when providing a value to a WebAssembly import. The most common structures like `String`, `ArrayBuffer` and the typed arrays are documented in [memory internals](../details/memory.md#internals), and custom classes adhere to [class layout](../details/interoperability.md#class-layout).
+This is true in both directions, hence also applies when providing a value to a WebAssembly import. The most common structures like `String`, `ArrayBuffer` and the typed arrays are documented in [memory internals](./memory.md#internals), and custom classes adhere to [class layout](./interoperability.md#class-layout).
 
 ## Anatomy of a module
 
-WebAssembly modules produced by the AssemblyScript compiler typically have the following set of imports and exports in addition to those defined in user code, with `?` indicating conditional presence. Recommended scenarios like using modules together with the [loader](loader.md) or utilizing WASI via `import "wasi"` take care of these automatically.
+WebAssembly modules produced by the AssemblyScript compiler typically have the following set of imports and exports in addition to those defined in user code, with `?` indicating conditional presence. Recommended scenarios like using modules together with the [loader](./loader.md) or utilizing WASI via `import "wasi"` take care of these automatically.
 
 ### Exports
 
@@ -166,14 +166,14 @@ WebAssembly modules produced by the AssemblyScript compiler typically have the f
 * ```ts
   function env.abort?(message: usize, fileName: usize, line: u32, column: u32): void
   ```
-  Called on unrecoverable errors. Typically present if assertions are enabled. Automatically implemented by the [loader](loader.md). Not present but otherwise implemented on `import "wasi"`.
+  Called on unrecoverable errors. Typically present if assertions are enabled. Automatically implemented by the [loader](./loader.md). Not present but otherwise implemented on `import "wasi"`.
 
 * ```ts
   function env.trace?(message: usize, n: i32, a0..4?: f64): void
   ```
-  Called when `trace` is called in user code. Only present if it is. Automatically implemented by the [loader](loader.md). Not present but otherwise implemented on `import "wasi"`.
+  Called when `trace` is called in user code. Only present if it is. Automatically implemented by the [loader](./loader.md). Not present but otherwise implemented on `import "wasi"`.
 
 * ```ts
   function env.seed?(): f64
   ```
-  Called when the random number generator needs to be seeded. Only present if it is. Automatically implemented by the [loader](loader.md). Not present but otherwise implemented on `import "wasi"`.
+  Called when the random number generator needs to be seeded. Only present if it is. Automatically implemented by the [loader](./loader.md). Not present but otherwise implemented on `import "wasi"`.

@@ -6,7 +6,7 @@ description: Because nobody enjoys being bullied by malloc, free and friends.
 
 AssemblyScript's runtime takes care of all the ins and outs of memory management and garbage collection, yet the compiler lets a developer choose the ideal runtime variant for their use case.
 
-## Runtime variants
+## Variants
 
 | Variant | Description
 | :------ | :----------
@@ -21,7 +21,7 @@ The default runtime included in a program is the `full` runtime, but deciding fo
 Previous versions of the compiler \(pre 0.7\) did not include any runtime functionality by default but instead required `import`ing an allocator and potentially an experimental tracing collector. This is not supported anymore by recent versions of the compiler.
 :::
 
-## Runtime interface
+## Interface
 
 The following paragraphs are relevant in low-level code respectively when working with objects externally only. In normal high-level code, the compiler utilizes these mechanisms automatically.
 
@@ -70,7 +70,7 @@ Objects created by calling `__alloc` start with a reference count of 0. This is 
 
 ### Working with references externally
 
-Working with objects through imports and exports, like when using [the loader](../basics/loader.md), is _relatively_ straight-forward. However, if not handled properly, the program will either leak memory, free objects prematurely or even break. So here's some advice:
+Working with objects through imports and exports, like when using [the loader](./loader.md), is _relatively_ straight-forward. However, if not handled properly, the program will either leak memory, free objects prematurely or even break. So here's some advice:
 
 * Always `__retain` a reference to manually `__alloc`'ed objects and `__release` the reference again when done with the object.
 * Always `__release` the reference to an object that was a return value of a call \(see above\) when done with it. It is not necessary to `__retain` a reference to returned objects.
@@ -84,7 +84,7 @@ Working with objects internally, like when creating custom standard library comp
 One common point of confusion here is that the rules above **operate on types, not values**. Means: If the target is of a reference-type, the rules apply, but if the target is of an `usize` type, the rules do not apply, even if the value is a `changetype<usize>(..)`'d object.
 :::
 
-```typescript
+```ts
 {
   let ref = new ArrayBuffer(10) // retains (reference type)
   let buf = changetype<usize>(ref) // does not retain (usize)
@@ -93,7 +93,7 @@ One common point of confusion here is that the rules above **operate on types, n
 }
 ```
 
-```typescript
+```ts
 {
   let buf = changetype<usize>(new ArrayBuffer(10)) // does not retain (usize)
   // inserts a temporary, because _the object_ is not immediately assigned
@@ -102,7 +102,7 @@ One common point of confusion here is that the rules above **operate on types, n
 }
 ```
 
-```typescript
+```ts
 {
   let ref = changetype<ArrayBuffer>(__alloc(10, idof<ArrayBuffer>())
   // retains on ref, because after changetype an object is assigned
@@ -135,7 +135,7 @@ If you are interested in the inner workings, the internal APIs are explained in 
 
 #### Runtime type information \(RTTI\)
 
-Every module using managed objects contains a memory segment with basic type information, that [the loader](../basics/loader.md) for example uses when allocating new arrays. Internally, RTTI is used to perform dynamic `instanceof` checks and to determine whether a class is inherently acyclic. The memory offset of RTTI can be obtained by reading the `__rtti_base` global. Essentially, the compiler maps every concrete class to a unique id, starting with 0 \(=ArrayBuffer\), 1 \(=String\) and 2 \(=ArrayBufferView\) . For each such class, the compiler remembers the id of the respective base class, if any, and a set of flags describing the class. Flags for example contain information about key and value alignments, whether a class is managed and so on. Structure is like this:
+Every module using managed objects contains a memory segment with basic type information, that [the loader](./loader.md) for example uses when allocating new arrays. Internally, RTTI is used to perform dynamic `instanceof` checks and to determine whether a class is inherently acyclic. The memory offset of RTTI can be obtained by reading the `__rtti_base` global. Essentially, the compiler maps every concrete class to a unique id, starting with 0 \(=ArrayBuffer\), 1 \(=String\) and 2 \(=ArrayBufferView\) . For each such class, the compiler remembers the id of the respective base class, if any, and a set of flags describing the class. Flags for example contain information about key and value alignments, whether a class is managed and so on. Structure is like this:
 
 | Name        | Offset | Type | Description
 | :---------- | -----: | :--- | :----------

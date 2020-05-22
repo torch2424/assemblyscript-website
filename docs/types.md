@@ -35,7 +35,7 @@ AssemblyScript will complain when it sees an implicit conversion that might not 
 
 ### Casting
 
-In AssemblyScript, the type assertions `<T>expression` and `expression as T` known from TypeScript become explicit type conversions, essentially telling the compiler that the conversion is intended. In addition, each of the type names mentioned above, except aliases, also act as portable conversion built-ins that can be used just like `i32(expression)`. Using portable conversions is especially useful where the exact same code is meant to be compiled to JavaScript with the TypeScript compiler \([see](portability)\), that otherwise would require the insertion of asm.js-style type coercions like `expression | 0`.
+In AssemblyScript, the type assertions `<T>expression` and `expression as T` known from TypeScript become explicit type conversions, essentially telling the compiler that the conversion is intended. In addition, each of the type names mentioned above, except aliases, also act as portable conversion built-ins that can be used just like `i32(expression)`. Using portable conversions is especially useful where the exact same code is meant to be compiled to JavaScript with the TypeScript compiler \([see](./portability.md)\), that otherwise would require the insertion of asm.js-style type coercions like `expression | 0`.
 
 ### Inference
 
@@ -61,7 +61,7 @@ Assigning a value of one type to a target of another type can be performed witho
 
 Note that `isize` and `usize` are aliases of either `i32` and `u32` in WASM32 respectively `i64` and `u64` in WASM64 🦄.
 
-```typescript
+```ts
 var  i8val: i8  = -128  // 0x80
 var  u8val: u8  = i8val // becomes 128 (0x80)
 var i16val: i16 = i8val // becomes -128 through sign-extension (0xFF80)

@@ -12,7 +12,7 @@ Similar to TypeScript's `tsc` compiling to JavaScript, AssemblyScript's `asc` co
 
 Non-option arguments are treated as the names of entry files. A single program can have multiple entries, with the exports of each entry becoming the exports of the WebAssembly module. Exports of imported files that are not entry files do not become WebAssembly module exports.
 
-```bash
+```sh
 asc entryFile.ts
 ```
 
@@ -20,7 +20,7 @@ asc entryFile.ts
 
 The compiler can optimize for both speed and size. `--optimizeLevel` \(0-3\) indicates how much the compiler focuses on optimizing the code with `--shrinkLevel` \(0-2, 1=s, 2=z\) indicating how much it focuses on keeping the size low during code generation and while optimizing. A convenient shorthand is `-O[optimizeLevel][shrinkLevel]` , with shrink level indicated by appending the letter `s` \(1\) or `z` \(2\) to the optimize level.
 
-```text
+```
 --optimize, -O        Optimizes the module. Typical shorthands are:
 
                        Default optimizations   -O / -O3s
@@ -35,9 +35,9 @@ The compiler can optimize for both speed and size. `--optimizeLevel` \(0-3\) ind
 --noAssert            Replaces assertions with just their value without trapping.
 ```
 
-Also noteworthy: The standard library provides [memory manager and garbage collector variants](./runtime.md#runtime-variants) for various use cases. From largest/most sophisticated to smallest/simplest:
+Also noteworthy: The standard library provides [memory manager and garbage collector variants](./runtime.md#variants) for various use cases. From largest/most sophisticated to smallest/simplest:
 
-```text
+```
 --runtime             Specifies the runtime variant to include in the program.
 
                        full  Default runtime based on TLSF and reference counting.
@@ -52,7 +52,7 @@ If external allocation is not required, choosing either `half` or `none` can sig
 
 Typical output formats are WebAssembly binary \(.wasm\) and/or text format \(.wat\). Often, both are used in tandem to run and also inspect generated code.
 
-```text
+```
 --outFile, -o         Specifies the output file. File extension indicates format.
 --binaryFile, -b      Specifies the binary output file (.wasm).
 --textFile, -t        Specifies the text output file (.wat).
@@ -60,7 +60,7 @@ Typical output formats are WebAssembly binary \(.wasm\) and/or text format \(.wa
 
 There are several other output formats as well for tooling purposes with varying levels of maturity.
 
-```text
+```
 --jsFile, -j          Specifies the JavaScript output file (.js).
 --idlFile, -i         Specifies the WebIDL output file (.webidl).
 --tsdFile, -d         Specifies the TypeScript definition output file (.d.ts).
@@ -70,14 +70,14 @@ There are several other output formats as well for tooling purposes with varying
 
 For easier debugging a [source map](./debugging.md#source-maps) can be emitted alongside the WebAssembly binary.
 
-```text
+```
 --sourceMap           Enables source map generation. Optionally takes the URL
                       used to reference the source map from the binary file.
 ```
 
 It is also often useful to emit debug information, like function names, alongside the binary.
 
-```text
+```
 --debug               Enables debug information in emitted binaries.
 ```
 
@@ -85,7 +85,7 @@ It is also often useful to emit debug information, like function names, alongsid
 
 There are several flags that enable or disable specific WebAssembly or compiler features. By default, only the bare minimum is exposed, and fully standardized WebAssembly features will be used.
 
-```text
+```
 --importMemory        Imports the memory provided as 'env.memory'.
 --noExportMemory      Does not export the memory as 'memory'.
 --initialMemory       Sets the initial memory size in pages.
@@ -116,7 +116,7 @@ There are several flags that enable or disable specific WebAssembly or compiler 
 
 Specifying the base offsets of compiler-generated memory respectively the table leaves some space for other data in front. In its current form this is mostly useful to link additional data into an AssemblyScript binary after compilation, be it by populating the binary itself or initializing the data externally upon initialization. One good example is leaving some scratch space for a frame buffer.
 
-```text
+```
 --memoryBase          Sets the start offset of emitted memory segments.
 --tableBase           Sets the start offset of emitted table elements.
 ```
@@ -125,7 +125,7 @@ Specifying the base offsets of compiler-generated memory respectively the table 
 
 To integrate with the compiler, for example to post-process the AST, one or multiple custom [transforms](./transforms.md) can be specified.
 
-```text
+```
 --transform           Specifies the path to a custom transform to 'require'.
 ```
 
@@ -135,7 +135,7 @@ Other options include those forwarded to Binaryen and various flags useful in ce
 
 #### Binaryen
 
-```text
+```
 --trapMode            Sets the trap mode to use.
 
                        allow  Allow trapping operations. This is the default.
@@ -149,7 +149,7 @@ Other options include those forwarded to Binaryen and various flags useful in ce
 
 #### And the kitchen sink
 
-```text
+```
 --noColors            Disables terminal colors.
 --baseDir             Specifies the base directory of input and output files.
 --extension           Specifies an alternative file extension to use.

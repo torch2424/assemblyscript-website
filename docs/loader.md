@@ -7,14 +7,14 @@ description: How to make working with an AssemblyScript module more convenient.
 AssemblyScript has a tiny [module loader](https://github.com/AssemblyScript/assemblyscript/tree/master/lib/loader) that makes working with AssemblyScript modules as convenient as it gets without sacrificing efficiency \([see also / alternatives](#why-not-more-convenient)\). It mirrors the relevant parts of the WebAssembly API while also providing utility to load and store numbers as well as to allocate and read strings, arrays and classes.
 
 ::: tip NOTE
-Some of the loader's functionality, like allocating strings, requires the [managed runtime](../details/runtime.md) interface to be exported to the host.
+Some of the loader's functionality, like allocating strings, requires the [managed runtime](./runtime.md) interface to be exported to the host.
 :::
 
 ## Install
 
 For each version of the AssemblyScript compiler, there is a standalone version of the loader that can be installed from npm:
 
-```bash
+```sh
 npm install @assemblyscript/loader
 ```
 
@@ -24,7 +24,7 @@ If you need a [specific version](https://github.com/AssemblyScript/assemblyscrip
 
 ## Example
 
-```javascript
+```js
 // browser
 
 const loader = require("@assemblyscript/loader")
@@ -37,7 +37,7 @@ const myModule = await loader.instantiate(
 )
 ```
 
-```javascript
+```js
 // node.js (sync)
 
 const fs = require("fs")
@@ -49,7 +49,7 @@ const myModule = loader.instantiateSync(
 )
 ```
 
-```javascript
+```js
 // node.js (async)
 
 const fs = require("fs")
@@ -65,16 +65,16 @@ What this basically does is to instantiate the module normally, adding some util
 
 One task the loader does not perform, however, is to implicitly translate between pointers and objects. For example, if one has
 
-```typescript
+```ts
 export class Foo {
   constructor(public str: string) {}
   getString(): string { return this.str }
 }
 ```
 
-and then wants to call `new myModule.Foo(theString)` externally, the `theString` argument cannot just be a JavaScript string but must first be allocated and its [lifetime tracked](../details/runtime.md#managing-lifetimes), like so:
+and then wants to call `new myModule.Foo(theString)` externally, the `theString` argument cannot just be a JavaScript string but must first be allocated and its [lifetime tracked](./runtime.md#managing-lifetimes), like so:
 
-```javascript
+```js
 const { Foo, __allocString, __retain, __release } = myModule
 
 const str = __retain(__allocString("my string"))
@@ -88,7 +88,7 @@ __release(str)
 
 Likewise, when calling the following function externally
 
-```typescript
+```ts
 export function getFoo(): Foo {
   return new Foo("my string")
 }
@@ -96,7 +96,7 @@ export function getFoo(): Foo {
 
 the resulting pointer must first be wrapped in a `myModule.Foo` instance:
 
-```javascript
+```js
 const { Foo, getFoo, __getString, __release } = myModule
 
 const foo = Foo.wrap(getFoo())
@@ -116,4 +116,4 @@ Making it any more convenient has its trade-offs. One would either have to inclu
 
 ## Further resources
 
-For a full list of the provided utility and more usage examples, please see [the loader's README](https://github.com/AssemblyScript/assemblyscript/tree/master/lib/loader). For more information on what `__retain` and `__release` are about and where it's necessary and where it's not, see the information about the [managed runtime](../details/runtime.md).
+For a full list of the provided utility and more usage examples, please see [the loader's README](https://github.com/AssemblyScript/assemblyscript/tree/master/lib/loader). For more information on what `__retain` and `__release` are about and where it's necessary and where it's not, see the information about the [managed runtime](./runtime.md).

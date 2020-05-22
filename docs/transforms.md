@@ -8,7 +8,7 @@ AssemblyScript is compiled statically, so code transformation cannot be done at 
 
 Specifying `--transform ./myTransform` on the command line will load the node module pointed to by `./myTransform`.
 
-```javascript
+```js
 const { Transform } = require("assemblyscript/cli/transform")
 const assemblyscript = require("assemblyscript")
 class MyTransform extends Transform {
@@ -17,7 +17,7 @@ class MyTransform extends Transform {
 module.exports = MyTransform
 ```
 
-## Transform properties
+## Properties
 
 A transform is an ES6 class/node module with the following inherited properties:
 
@@ -61,7 +61,7 @@ A transform is an ES6 class/node module with the following inherited properties:
   ```
   Lists all files in a directory.
 
-## Transform hooks
+## Hooks
 
 The frontend will call several hooks, if present on the transform, during the compilation process:
 

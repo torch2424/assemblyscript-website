@@ -21,7 +21,7 @@ Decorators work more like actual compiler annotations in AssemblyScript.
 | `@operator.prefix`  | Annotates a method as a unary prefix operator overload. See below.
 | `@operator.postfix` | Annotates a method as a unary postfix operator overload. See below.
 
-Custom decorators can be given meaning by using a [transform](transforms.md).
+Custom decorators can be given meaning by using a [transform](./transforms.md).
 
 ## Operator overloads
 
@@ -29,7 +29,7 @@ Operator overloads can only be used on class methods. The respective argument ty
 
 ### Binary operations
 
-```typescript
+```ts
 @operator(OP)
 static __op(left: T, right :T): T { ... }
 
@@ -66,7 +66,7 @@ The `===` operation cannot be overloaded \(is identity equality\).
 
 ### Unary prefix operations
 
-```typescript
+```ts
 @operator.prefix(OP)
 static __op(self: T): T { ... }
 
@@ -89,7 +89,7 @@ Note that increment and decrement overloads can have slightly different semantic
 
 ### Unary postfix operations
 
-```typescript
+```ts
 @operator.postfix(OP)
 static __op(self: T): T { ... }
 
@@ -231,7 +231,7 @@ In addition to module-level tree-shaking, the compiler ignores branches that it 
 
 For example, if a library supports SIMD but also provides a fallback:
 
-```typescript
+```ts
 if (ASC_FEATURE_SIMD) {
   // compute with SIMD operations
 } else {

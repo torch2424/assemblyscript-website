@@ -18,7 +18,7 @@ struct Foo {
 }
 ```
 
-```typescript
+```ts
 @unmanaged class Foo {
   bar: u32; // aligned to 4 bytes
   baz: u16; // aligned to 2 bytes
@@ -45,7 +45,7 @@ struct Foo {
 }
 ```
 
-```typescript
+```ts
 @unmanaged class Foo {
   bar: i32
   getBaz(i: i32): u32 {
@@ -61,7 +61,7 @@ struct Foo {
 
 Exported functions will properly wrap return values, but functions not visible externally do not guarantee proper wrapping.
 
-```typescript
+```ts
 export function getU8(): u8 {
   return someU8 // will wrap to someU8 & 0xff
 }
