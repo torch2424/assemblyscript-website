@@ -4,8 +4,8 @@ description: Definitely not a TypeScript to WebAssembly compiler 🚀
 layout: Frontpage
 home: true
 heroImage: /images/logo.svg
-heroText: null
-tagline: A language made for WebAssembly.
+heroText: A language made for WebAssembly.
+tagline: null
 actionText: Get Started →
 actionLink: /introduction
 footer: Apache-2.0 | Copyright © 2020 The AssemblyScript Project
@@ -31,19 +31,41 @@ footer: Apache-2.0 | Copyright © 2020 The AssemblyScript Project
 <div class="sponsors">
   <h2>Thanks to our sponsors and backers! 💖</h2>
   <div class="sponsor">
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/0/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/0/avatar.svg"></a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/1/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/1/avatar.svg"></a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/2/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/2/avatar.svg"></a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/3/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/3/avatar.svg"></a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/4/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/4/avatar.svg"></a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/5/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/5/avatar.svg"></a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/6/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/6/avatar.svg"></a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/7/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/7/avatar.svg"></a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/8/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/8/avatar.svg"></a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/9/website" target="_blank"><img src="https://opencollective.com/assemblyscript/tiers/sponsor/9/avatar.svg"></a>
+    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/0/website" target="_blank" rel="noopener">
+      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/0/avatar.svg" alt="Sponsor" />
+    </a>
+    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/1/website" target="_blank" rel="noopener">
+      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/1/avatar.svg" alt="Sponsor">
+    </a>
+    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/2/website" target="_blank" rel="noopener">
+      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/2/avatar.svg" alt="Sponsor">
+    </a>
+    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/3/website" target="_blank" rel="noopener">
+      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/3/avatar.svg" alt="Sponsor">
+    </a>
+    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/4/website" target="_blank" rel="noopener">
+      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/4/avatar.svg" alt="Sponsor">
+    </a>
+    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/5/website" target="_blank" rel="noopener">
+      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/5/avatar.svg" alt="Sponsor">
+    </a>
+    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/6/website" target="_blank" rel="noopener">
+      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/6/avatar.svg" alt="Sponsor">
+    </a>
+    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/7/website" target="_blank" rel="noopener">
+      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/7/avatar.svg" alt="Sponsor">
+    </a>
+    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/8/website" target="_blank" rel="noopener">
+      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/8/avatar.svg" alt="Sponsor">
+    </a>
+    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/9/website" target="_blank" rel="noopener">
+      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/9/avatar.svg" alt="Sponsor">
+    </a>
   </div>
   <div class="backer">
-    <a href="https://opencollective.com/assemblyscript#backers" target="_blank"><img src="https://opencollective.com/assemblyscript/backer.svg?avatarHeight=44"></a>
+    <a href="https://opencollective.com/assemblyscript#backers" target="_blank" rel="noopener" loading="lazy">
+      <img src="https://opencollective.com/assemblyscript/backer.svg?avatarHeight=44" alt="Backers">
+    </a>
   </div>
 </div>
 

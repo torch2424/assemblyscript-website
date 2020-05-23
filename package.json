@@ -6,7 +6,8 @@
   "description": "AssebmlyScript's Website.",
   "scripts": {
     "start": "vuepress dev docs --host localhost",
-    "build": "vuepress build docs"
+    "build": "vuepress build docs",
+    "serve": "vuepress serve docs"
   },
   "devDependencies": {
     "@vuepress/plugin-html-redirect": "^0.1.2",
@@ -14,6 +15,7 @@
     "monaco-editor-webpack-plugin": "^1.9.0",
     "prism-themes": "^1.4.0",
     "requirejs": "^2.3.6",
-    "vuepress": "^1.5.0"
+    "vuepress": "^1.5.0",
+    "vuepress-plugin-serve": "^2.0.3"
   }
 }

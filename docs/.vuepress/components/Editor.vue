@@ -38,8 +38,10 @@ function getCompiler() {
       script.onerror = err => {
         reject(err)
       }
-      script.src = 'https://cdn.jsdelivr.net/npm/requirejs@2/require.min.js'
-      document.head.appendChild(script)
+      setTimeout(() => {
+        script.src = 'https://cdn.jsdelivr.net/npm/requirejs@2/require.min.js'
+        document.head.appendChild(script)
+      });
     })
   }
   return compilerPromise
@@ -107,7 +109,7 @@ export default {
         const monaco = this.$refs.source.getMonaco()
         const languages = monaco.languages
         const typescriptDefaults = languages.typescript.typescriptDefaults
-        typescriptDefaults.setCompilerOptions(asc.tscOptions)
+        // typescriptDefaults.setCompilerOptions(asc.tscOptions)
         typescriptDefaults.addExtraLib(asc.definitionFiles.assembly, "assemblyscript/std/assembly/index.d.ts")
         languages.register({ id: 'webassembly' })
         languages.setLanguageConfiguration('webassembly', watConfig)

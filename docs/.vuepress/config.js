@@ -20,7 +20,8 @@ module.exports = {
     ['link', { rel: "shortcut icon", href: "/favicon.ico"}],
     ['meta', { name: "msapplication-TileColor", content: "#ffffff"}],
     ['meta', { name: "msapplication-config", content: "/browserconfig.xml"}],
-    ['meta', { name: "theme-color", content: "#ffffff"}]
+    ['meta', { name: "theme-color", content: "#ffffff"}],
+    ['meta', { name: "viewport", content: "width=device-width, initial-scale=1"}]
   ],
   theme: '.vuepress/theme',
   themeConfig: {
@@ -41,7 +42,8 @@ module.exports = {
     '**/*.vue'
   ],
   plugins: [
-    '@vuepress/plugin-html-redirect'
+    '@vuepress/plugin-html-redirect',
+    'vuepress-plugin-serve'
   ],
   chainWebpack(config, isServer) {
     if (isServer) return
