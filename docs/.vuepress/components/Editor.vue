@@ -103,28 +103,29 @@ export default {
   },
 
   mounted() {
+    const monaco = this.$refs.source.getMonaco()
+    const editor = monaco.editor
+    editor.defineTheme('vs-wasm', {
+      base: 'vs',
+      inherit: true,
+      rules: [
+        { token: 'instruction', foreground: '001080' },
+        { token: 'controlInstruction', foreground: 'af00db' },
+        { token: 'variable', foreground: '795e26' }
+      ]
+    });
+    editor.setTheme('vs-wasm')
+    const languages = monaco.languages
+    languages.register({ id: 'webassembly' })
+    languages.setLanguageConfiguration('webassembly', watConfig)
+    languages.setMonarchTokensProvider('webassembly', watTokens)
     getCompiler().then(asc => {
       if (!extrasAdded) {
         extrasAdded = true
-        const monaco = this.$refs.source.getMonaco()
-        const languages = monaco.languages
         const typescriptDefaults = languages.typescript.typescriptDefaults
-        // typescriptDefaults.setCompilerOptions(asc.tscOptions)
         typescriptDefaults.addExtraLib(asc.definitionFiles.assembly, "assemblyscript/std/assembly/index.d.ts")
-        languages.register({ id: 'webassembly' })
-        languages.setLanguageConfiguration('webassembly', watConfig)
-        languages.setMonarchTokensProvider('webassembly', watTokens)
-        const editor = monaco.editor
-        editor.defineTheme('vs-wasm', {
-          base: 'vs',
-          inherit: true,
-          rules: [
-            { token: 'instruction', foreground: '001080' },
-            { token: 'controlInstruction', foreground: 'af00db' },
-            { token: 'variable', foreground: '795e26' }
-          ]
-        });
-        editor.setTheme('vs-wasm')
+        // TODO: leads to ts.worker.js errors when set - do we even need it?
+        // typescriptDefaults.setCompilerOptions(asc.tscOptions)
       }
     })
   },
