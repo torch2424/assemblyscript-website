@@ -1,7 +1,7 @@
 AssemblyScript's Website
 ========================
 
-The site is built with [vuepress](https://vuepress.vuejs.org/) and reuses its default theme to ease upgrading to newer versions.
+The site is built with [VuePress](https://vuepress.vuejs.org/) and reuses its default theme to ease upgrading to newer versions.
 
 The more important files are:
 
@@ -15,6 +15,8 @@ The more important files are:
   Redirect map of (re)moved pages to new locations.
 * [docs/.vuepress/public/](./docs/.vuepress/public)<br />
   Assets folder for images etc.
+* [docs/.vuepress/styles/index.styl](./docs/.vuepress/styles/index.styl)<br />
+  Additional CSS styles.
 
 Building
 --------
