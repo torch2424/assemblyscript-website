@@ -18,7 +18,7 @@ The ArrayBuffer API is exactly as in JavaScript \([MDN](https://developer.mozill
 ## Static members
 
 * ```ts
-  function ArrayBuffer.isView<T>(value: T): bool
+  function isView<T>(value: T): bool
   ```
   Returns true if `value` is one of the buffer views, such as one of the [typed arrays](./typedarray.md) or a [DataView](./dataview.md).
 
@@ -27,18 +27,18 @@ The ArrayBuffer API is exactly as in JavaScript \([MDN](https://developer.mozill
 ### Fields
 
 * ```ts
-  var ArrayBuffer#byteLength: i32
+  readonly byteLength: i32
   ```
   The buffer's length, in bytes.
 
 ### Methods
 
 * ```ts
-  function ArrayBuffer#slice(begin?: i32, end?: i32): ArrayBuffer
+  function slice(begin?: i32, end?: i32): ArrayBuffer
   ```
   Returns a copy of this buffer from begin, inclusive, up to end, exclusive.
 
 * ```ts
-  function ArrayBuffer#toString(): string
+  function toString(): string
   ```
   Returns a string representation of this buffer.

@@ -1,31 +1,80 @@
 <template>
   <div class="editor">
     <div class="tabs">
-      <a ref="sourceTab" class="tab source" @click="switchTab" v-bind:class="{ active: showSource }">input.ts</a>
-      <a ref="binaryTab" class="tab binary" @click="switchTab" v-bind:class="{ active: !showSource }">output.wat</a>
+      <a ref="sourceTab" class="tab source" @click="switchTab" v-bind:class="{ active: show == 'source' }">input.ts</a>
+      <a ref="binaryTab" class="tab binary" @click="switchTab" v-bind:class="{ active: show == 'binary' }">output.wat</a>
+      <a ref="canvasTab" class="tab canvas" @click="switchTab" v-if="canvas" v-bind:class="{ active: show == 'canvas' }">index.html</a>
     </div>
-    <Monaco ref="source" class="monaco source" language="typescript" v-bind="source" v-model="code" v-if="showSource" />
+    <Monaco ref="source" class="monaco source" language="typescript" v-bind="source" v-model="code" v-if="show == 'source'" />
     <Monaco ref="binary" class="monaco binary" language="webassembly" v-bind="binary" v-model="output" v-else />
   </div>
 </template>
 
 <script>
 import Monaco from './Monaco'
+import watConfig from './../wat-config'
+import watTokens from './../wat-tokens'
+
+var compiler = null
+var compilerPromise = null
+var extrasAdded = false
+
+function getCompiler() {
+  if (!compilerPromise) {
+    compilerPromise = new Promise((resolve, reject) => {
+      console.log('[asc] Loading compiler ...')
+      var script = document.createElement('script')
+      script.onload = () => {
+        requirejs([ 'https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/sdk.js' ], ({ asc }) => {
+          asc.ready.then(() => {
+            compiler = asc
+            console.log(`[asc] Compiler is ready (v${asc.version})`)
+            resolve(compiler)
+          })
+        }, err => {
+          reject(err)
+        })
+      }
+      script.onerror = err => {
+        reject(err)
+      }
+      script.src = 'https://cdn.jsdelivr.net/npm/requirejs@2/require.min.js'
+      document.head.appendChild(script)
+    })
+  }
+  return compilerPromise
+}
 
 export default {
   name: 'Editor',
   code: '',
   output: '',
-  showSource: true,
+  show: 'source',
 
   components: {
     Monaco
+  },
+
+  props: {
+    runtime: {
+      type: String,
+      default: 'none'
+    },
+    optimize: {
+      type: Boolean,
+      default: true
+    },
+    canvas: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data () {
     return {
       code: this.code,
       output: this.output,
+      show: this.show,
       source: {
         options: {
           readOnly: false
@@ -35,49 +84,87 @@ export default {
         options: {
           readOnly: true
         }
-      },
-      showSource: this.showSource
+      }
     }
   },
 
   beforeCreate() {
-    // ¯\_(ツ)_/¯
-    this.code = this.$slots.default[0].children[0].children[0].children[0].text
+    const slots = this.$slots.default
+
+    let code = slots[0].children[0].text // first child or <pre>
+    let codeIndent = /^(\s+)/.exec(code)
+    if (codeIndent) code = code.replace(new RegExp('^' + codeIndent[1], 'mg'), '').trimRight() + "\n"
+
+    this.show = 'source'
+    this.code = code
     this.output = ''
   },
 
   mounted() {
-    this.showSource = true
-    var script = document.createElement('script')
-    script.onload = () => {
-      requirejs([ 'https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/sdk.js' ], ({ asc }) => {
-        this.asc = asc
-      })
-    }
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js'
-    document.head.appendChild(script)
+    getCompiler().then(asc => {
+      if (!extrasAdded) {
+        extrasAdded = true
+        const monaco = this.$refs.source.getMonaco()
+        const languages = monaco.languages
+        const typescriptDefaults = languages.typescript.typescriptDefaults
+        typescriptDefaults.setCompilerOptions(asc.tscOptions)
+        typescriptDefaults.addExtraLib(asc.definitionFiles.assembly, "assemblyscript/std/assembly/index.d.ts")
+        languages.register({ id: 'webassembly' })
+        languages.setLanguageConfiguration('webassembly', watConfig)
+        languages.setMonarchTokensProvider('webassembly', watTokens)
+        const editor = monaco.editor
+        editor.defineTheme('vs-wasm', {
+          base: 'vs',
+          inherit: true,
+          rules: [
+            { token: 'instruction', foreground: '001080' },
+            { token: 'controlInstruction', foreground: 'af00db' },
+            { token: 'variable', foreground: '795e26' }
+          ]
+        });
+        editor.setTheme('vs-wasm')
+      }
+    })
   },
 
   methods: {
     switchTab(evt) {
-      if (!this.asc) return
-      this.showSource = !this.showSource
-      if (!this.showSource) {
+      let show
+      if (evt.target == this.$refs.binaryTab) {
+        show = 'binary'
+      } else if (evt.target == this.$refs.canvasTab) {
+        show = 'canvas'
+      } else {
+        show = 'source'
+      }
+      if (show != this.show) {
+        this.show = show
         this.output = '(module\n  🚀\n)\n'
         setTimeout(() => {
-          this.asc.ready.then(() => {
-            const { text, stderr } = this.asc.compileString(this.code, {
-              optimizeLevel: 3,
-              runtime: "none"
+          const startTime = Date.now()
+          console.log('[asc] Compiling code ...')
+          getCompiler().then(asc => {
+            asc.ready.then(() => {
+              const { text, binary, stderr } = asc.compileString(this.code, {
+                optimize: this.optimize,
+                runtime: this.runtime
+              })
+              const time = Date.now() - startTime
+              let diags = stderr.toString().trim()
+              if (diags.length) {
+                const pos = diags.indexOf('\n    at ')
+                if (~pos) diags = diags.substring(0, pos)
+                if (diags.length) {
+                  diags = diags.replace(/(^|\n)/g, '$1; ') + "\n"
+                }
+              }
+              if (typeof text === "string") {
+                console.log(`[asc] Compilation complete (${time} ms)`)
+                this.output = diags + text
+              } else {
+                this.output = diags + "\n"
+              }
             })
-            if (typeof text === "string") {
-              this.output = text
-            } else {
-              let text = stderr.toString()
-              const pos = text.indexOf('\n    at ')
-              if (~pos) text = text.substring(0, pos)
-              this.output = text
-            }
           })
         }, 1)
       }
@@ -87,6 +174,9 @@ export default {
 </script>
 
 <style>
+.editor {
+  text-align: left;
+}
 .editor .tabs {
   background: #2d2d2d;
   padding: 10px 10px 0 10px;
@@ -102,6 +192,7 @@ export default {
   background-position: 8px center;
   display: inline-block;
   cursor: pointer;
+  user-select: none;
 }
 .editor .tab:hover {
   background-color: #3e3e3e;
@@ -119,10 +210,25 @@ export default {
 .editor .tab.binary {
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHRpdGxlPmZpbGVfdHlwZV93YXNtPC90aXRsZT48cGF0aCBkPSJNMTkuMTUzLDIuMzVWMi41YTMuMiwzLjIsMCwxLDEtNi40LDBoMFYyLjM1SDJWMzAuMjY5SDI5LjkxOVYyLjM1WiIgc3R5bGU9ImZpbGw6IzY1NGZmMCIvPjxwYXRoIGQ9Ik04LjQ4NSwxNy40aDEuODVMMTEuNiwyNC4xMjNoLjAyM0wxMy4xNCwxNy40aDEuNzMxbDEuMzcxLDYuODFoLjAyN2wxLjQ0LTYuODFoMS44MTVsLTIuMzU4LDkuODg1SDE1LjMyOWwtMS4zNi02LjcyOGgtLjAzNmwtMS40NTYsNi43MjhoLTEuODdabTEzLjEyNCwwaDIuOTE3bDIuOSw5Ljg4NUgyNS41MTVsLS42My0yLjJIMjEuNTYybC0uNDg2LDIuMkgxOS4yMTdabTEuMTEsMi40MzctLjgwNywzLjYyN2gyLjUxMkwyMy41LDE5LjgzMloiIHN0eWxlPSJmaWxsOiNmZmYiLz48L3N2Zz4=');
 }
+.editor .tab.canvas {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHRpdGxlPmZpbGVfdHlwZV9odG1sPC90aXRsZT48cG9seWdvbiBwb2ludHM9IjUuOTAyIDI3LjIwMSAzLjY1NSAyIDI4LjM0NSAyIDI2LjA5NSAyNy4xOTcgMTUuOTg1IDMwIDUuOTAyIDI3LjIwMSIgc3R5bGU9ImZpbGw6I2U0NGYyNiIvPjxwb2x5Z29uIHBvaW50cz0iMTYgMjcuODU4IDI0LjE3IDI1LjU5MyAyNi4wOTIgNC4wNjEgMTYgNC4wNjEgMTYgMjcuODU4IiBzdHlsZT0iZmlsbDojZjE2NjJhIi8+PHBvbHlnb24gcG9pbnRzPSIxNiAxMy40MDcgMTEuOTEgMTMuNDA3IDExLjYyOCAxMC4yNDIgMTYgMTAuMjQyIDE2IDcuMTUxIDE1Ljk4OSA3LjE1MSA4LjI1IDcuMTUxIDguMzI0IDcuOTgxIDkuMDgzIDE2LjQ5OCAxNiAxNi40OTggMTYgMTMuNDA3IiBzdHlsZT0iZmlsbDojZWJlYmViIi8+PHBvbHlnb24gcG9pbnRzPSIxNiAyMS40MzQgMTUuOTg2IDIxLjQzOCAxMi41NDQgMjAuNTA5IDEyLjMyNCAxOC4wNDQgMTAuNjUxIDE4LjA0NCA5LjIyMSAxOC4wNDQgOS42NTQgMjIuODk2IDE1Ljk4NiAyNC42NTQgMTYgMjQuNjUgMTYgMjEuNDM0IiBzdHlsZT0iZmlsbDojZWJlYmViIi8+PHBvbHlnb24gcG9pbnRzPSIxNS45ODkgMTMuNDA3IDE1Ljk4OSAxNi40OTggMTkuNzk1IDE2LjQ5OCAxOS40MzcgMjAuNTA3IDE1Ljk4OSAyMS40MzcgMTUuOTg5IDI0LjY1MyAyMi4zMjYgMjIuODk2IDIyLjM3MiAyMi4zNzQgMjMuMDk4IDE0LjIzNyAyMy4xNzQgMTMuNDA3IDIyLjM0MSAxMy40MDcgMTUuOTg5IDEzLjQwNyIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwb2x5Z29uIHBvaW50cz0iMTUuOTg5IDcuMTUxIDE1Ljk4OSA5LjA3MSAxNS45ODkgMTAuMjM1IDE1Ljk4OSAxMC4yNDIgMjMuNDQ1IDEwLjI0MiAyMy40NDUgMTAuMjQyIDIzLjQ1NSAxMC4yNDIgMjMuNTE3IDkuNTQ4IDIzLjY1OCA3Ljk4MSAyMy43MzIgNy4xNTEgMTUuOTg5IDcuMTUxIiBzdHlsZT0iZmlsbDojZmZmIi8+PC9zdmc+');
+}
 .monaco {
   border: 1px solid #ddd;
+  border-bottom-width: 2px;
   border-top: 0;
   width: 100%;
+  resize: vertical;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 200px;
   height: 500px;
+}
+.monaco .monaco-editor,
+.monaco .monaco-editor .margin,
+.monaco .monaco-editor-background,
+.monaco .monaco-editor .inputarea.ime-input {
+  background: #fff;
 }
 </style>

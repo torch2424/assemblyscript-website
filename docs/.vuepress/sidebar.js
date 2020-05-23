@@ -59,9 +59,15 @@ function getStdlibSidebar() {
         '/stdlib/math',
         '/stdlib/number',
         '/stdlib/set',
-        '/stdlib/staticarray',
         '/stdlib/string',
         '/stdlib/typedarray'
+      ]
+    },
+    {
+      title: 'Extended Library',
+      collapsable: false,
+      children: [
+        '/stdlib/staticarray'
       ]
     }
   ]

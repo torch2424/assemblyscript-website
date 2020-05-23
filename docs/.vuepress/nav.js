@@ -55,7 +55,7 @@ module.exports = [
         link: '/stdlib/typedarray'
       },
       {
-        text: 'Non-standard',
+        text: 'Extended',
         items: [
           {
             text: 'StaticArray',
@@ -64,6 +64,10 @@ module.exports = [
         ]
       }
     ]
+  },
+  {
+    text: 'Examples',
+    link: 'https://github.com/AssemblyScript/examples',
   },
   {
     text: 'Community',
@@ -79,6 +83,14 @@ module.exports = [
       {
         text: 'Slack (with invite)',
         link: 'https://assemblyscript.slack.com/'
+      },
+      {
+        text: 'Contributing guidelines',
+        link: 'https://github.com/AssemblyScript/assemblyscript/blob/master/CONTRIBUTING.md'
+      },
+      {
+        text: 'Code of Conduct',
+        link: 'https://github.com/AssemblyScript/assemblyscript/blob/master/CODE_OF_CONDUCT.md'
       },
       {
         text: 'Social',
