@@ -34,10 +34,6 @@ export default {
     Navbar
   },
 
-  data () {
-    return {}
-  },
-
   computed: {
     shouldShowNavbar () {
       return false
@@ -54,13 +50,6 @@ export default {
         userPageClass
       ]
     }
-  },
-
-  mounted () {
-    this.$router.afterEach(() => {})
-  },
-
-  methods: {
   }
 }
 </script>

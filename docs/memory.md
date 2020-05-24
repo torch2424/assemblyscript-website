@@ -46,7 +46,7 @@ The memory manager guarantees an alignment of 16 bytes, so an `ArrayBuffer`, whi
 
 Objects in AssemblyScript have a common hidden header used by the runtime to keep track of them. The header includes information about the block used by the memory manager, state information used by the garbage collector, a unique id per concrete class and the data's actual size. The length of a `String` \(id = 1\) is computed from that size for example. The header is "hidden" in that the reference to an object points right after it, at the first byte of the object's actual data.
 
-![Managed object memory layout](/images/managedobjectlayout.svg)
+<img src="images/managedobjectlayout.svg" alt="Managed Object Layout" />
 
 #### Common header layout
 

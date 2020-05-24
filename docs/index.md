@@ -26,53 +26,14 @@ footer: Apache-2.0 | Copyright © 2020 The AssemblyScript Project
   </div>
 </div>
 
----
-
 <div class="sponsors">
   <h2>Thanks to our sponsors and backers! 💖</h2>
-  <div class="sponsor">
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/0/website" target="_blank" rel="noopener">
-      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/0/avatar.svg" alt="Sponsor" />
-    </a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/1/website" target="_blank" rel="noopener">
-      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/1/avatar.svg" alt="Sponsor">
-    </a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/2/website" target="_blank" rel="noopener">
-      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/2/avatar.svg" alt="Sponsor">
-    </a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/3/website" target="_blank" rel="noopener">
-      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/3/avatar.svg" alt="Sponsor">
-    </a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/4/website" target="_blank" rel="noopener">
-      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/4/avatar.svg" alt="Sponsor">
-    </a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/5/website" target="_blank" rel="noopener">
-      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/5/avatar.svg" alt="Sponsor">
-    </a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/6/website" target="_blank" rel="noopener">
-      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/6/avatar.svg" alt="Sponsor">
-    </a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/7/website" target="_blank" rel="noopener">
-      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/7/avatar.svg" alt="Sponsor">
-    </a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/8/website" target="_blank" rel="noopener">
-      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/8/avatar.svg" alt="Sponsor">
-    </a>
-    <a href="https://opencollective.com/assemblyscript/tiers/sponsor/9/website" target="_blank" rel="noopener">
-      <img src="https://opencollective.com/assemblyscript/tiers/sponsor/9/avatar.svg" alt="Sponsor">
-    </a>
-  </div>
-  <div class="backer">
-    <a href="https://opencollective.com/assemblyscript#backers" target="_blank" rel="noopener" loading="lazy">
-      <img src="https://opencollective.com/assemblyscript/backer.svg?avatarHeight=44" alt="Backers">
-    </a>
-  </div>
+  <p>If you use AssemblyScript for a serious task or plan to do so, and you'd like us to invest more time on it, <a href="https://opencollective.com/assemblyscript/donate" target="_blank" rel="noopener">please donate</a> to our <a href="https://opencollective.com/assemblyscript" target="_blank" rel="noopener">OpenCollective</a>. By sponsoring this project, your logo will show up below. Thank you so much for your support!</p>
+  <Sponsors />
 </div>
 
----
-
 <div class="playground">
-  <h2>Try it out!</h2>
+  <h2>Try it out right in your browser! 🚀</h2>
   <Editor runtime="half">
     <pre lang="ts">
       export function fib(n: i32): i32 {
@@ -84,7 +45,6 @@ footer: Apache-2.0 | Copyright © 2020 The AssemblyScript Project
       }
     </pre>
   </Editor>
-
   <div class="hero">
     <p class="action">
       <a href="./quick-start.html" class="nav-link action-button">Ready for your next adventure? Install locally!</a>

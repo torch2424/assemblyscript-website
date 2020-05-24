@@ -16,7 +16,7 @@ The more important files are:
 * [docs/.vuepress/public/](./docs/.vuepress/public)<br />
   Assets folder for images etc.
 * [docs/.vuepress/styles/index.styl](./docs/.vuepress/styles/index.styl)<br />
-  Additional CSS styles.
+  Additional styling rules.
 
 Building
 --------
