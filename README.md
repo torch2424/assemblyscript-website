@@ -5,17 +5,19 @@ The site is built with [VuePress](https://vuepress.vuejs.org/) and reuses its de
 
 The more important files are:
 
-* [docs/**/*.md](./docs)<br />
+* [src/**/*.md](./src)<br />
   Documentation and site contents.
-* [docs/.vuepress/sidebar.js](./docs/.vuepress/sidebar.js)<br />
+* [src/.vuepress/sidebar.js](./src/.vuepress/sidebar.js)<br />
   Sidebar contents.
-* [docs/.vuepress/nav.js](./docs/.vuepress/nav.js)<br />
+* [src/.vuepress/nav.js](./src/.vuepress/nav.js)<br />
   Top-navigation contents.
-* [docs/.vuepress/redirects](./docs/.vuepress/redirects)<br />
+* [src/.vuepress/redirects](./src/.vuepress/redirects)<br />
   Redirect map of (re)moved pages to new locations.
-* [docs/.vuepress/public/](./docs/.vuepress/public)<br />
+* [src/.vuepress/public/](./src/.vuepress/public)<br />
   Assets folder for images etc.
-* [docs/.vuepress/styles/index.styl](./docs/.vuepress/styles/index.styl)<br />
+* [src/.vuepress/public/sponsors](./src/.vuepress/public/sponsors)<br />
+  Sponsor logo overrides (file name is collective name).
+* [src/.vuepress/styles/index.styl](./src/.vuepress/styles/index.styl)<br />
   Additional styling rules.
 
 Building
@@ -28,10 +30,10 @@ npm install
 npm start
 ```
 
-To build the site to `docs/.vuepress/dist`, i.e. to verify that it works as expected:
+To build the site to `dist`, i.e. to verify that it works as expected:
 
 ```sh
 npm run build
 ```
 
-The page is automatically rebuilt and updated on pushes to the repository.
+The page is automatically deployed on pushes to the repository, and at least once a day to sync sponsors.

@@ -17,14 +17,13 @@ jobs:
     - name: Build
       run: |
         npm ci --no-audit
-        export GH_ACTIONS=1
         npm run build
     - name: Deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        cd docs/.vuepress/dist
-        # echo 'assemblyscript.org' > CNAME
+        cd dist
+        echo assemblyscript-website.dcode.io > CNAME
         git init
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"

@@ -1,9 +1,11 @@
 ---
-description: Paving the way to what might be your first WebAssembly module.
+description: Paving the way to what might be your first AssemblyScript module.
 sidebarDepth: 0
 ---
 
 # Quick Start
+
+Paving the way to what might be your first AssemblyScript module.
 
 ## Prerequisites
 

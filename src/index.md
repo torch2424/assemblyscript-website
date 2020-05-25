@@ -8,7 +8,7 @@ heroText: A language made for WebAssembly.
 tagline: null
 actionText: Get Started →
 actionLink: /introduction
-footer: Apache-2.0 | Copyright © 2020 The AssemblyScript Project
+footer: Copyright © 2020 The AssemblyScript Project | Apache-2.0
 ---
 
 <div class="features">

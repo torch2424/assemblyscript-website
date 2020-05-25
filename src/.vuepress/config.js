@@ -1,9 +1,8 @@
 const MonacoEditorPlugin = require('monaco-editor-webpack-plugin')
 
 module.exports = {
-  base: process.env.GH_ACTIONS
-    ? '/assemblyscript-website/'
-    : '/',
+  base: '/',
+  dest: './dist',
   locales: {
     '/': {
       lang: 'en-US',
@@ -28,7 +27,7 @@ module.exports = {
     logo: '/images/icon.svg',
     nav: require('./nav'),
     docsRepo: 'AssemblyScript/website',
-    docsDir: 'docs',
+    docsDir: 'src',
     editLinks: true,
     editLinkText: 'Help us to improve this page!',
     sidebar: require('./sidebar'),
@@ -42,7 +41,7 @@ module.exports = {
     '**/*.vue'
   ],
   plugins: [
-    'docs/.vuepress/plugin',
+    'src/.vuepress/plugin',
     '@vuepress/plugin-html-redirect',
     'vuepress-plugin-serve'
   ],

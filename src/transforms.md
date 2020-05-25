@@ -22,27 +22,27 @@ module.exports = MyTransform
 A transform is an ES6 class/node module with the following inherited properties:
 
 * ```ts
-  const program: Program
+  readonly program: Program
   ```
   Reference to the `Program` instance.
 
 * ```ts
-  const baseDir: string
+  readonly baseDir: string
   ```
   Base directory used by the compiler.
 
 * ```ts
-  const stdout: OutputStream
+  readonly stdout: OutputStream
   ```
   Output stream used by the compiler.
 
 * ```ts
-  const stderr: OutputStream
+  readonly stderr: OutputStream
   ```
   Error stream uses by the compiler.
 
 * ```ts
-  const log: typeof console.log
+  readonly log: typeof console.log
   ```
   Logs a message to console.
 
