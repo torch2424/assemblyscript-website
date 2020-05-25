@@ -519,7 +519,7 @@ module.exports = {
       [/(@digits)[lL]?/, 'number'],
 
       // variable names
-      [/\$[^\s\)]*/, { token: 'variable' }],
+      [/\$[^\s\)]*/, { token: 'identifier' }],
 
       // instructions
       [/[a-zA-Z0-9]+(?:\.[a-zA-Z0-9_]+)*/, {

@@ -111,7 +111,8 @@ export default {
       rules: [
         { token: 'instruction', foreground: '001080' },
         { token: 'controlInstruction', foreground: 'af00db' },
-        { token: 'variable', foreground: '795e26' }
+        { token: 'identifier', foreground: '795e26' },
+        { token: 'identifier.ts', foreground: '001080' }
       ]
     });
     editor.setTheme('vs-wasm')

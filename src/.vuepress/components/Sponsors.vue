@@ -115,7 +115,6 @@ export default {
 }
 .sponsors .list a {
   display: inline-block;
-  padding: 0.5rem;
   box-sizing: border-box;
   position: relative;
   top: 0;
@@ -125,19 +124,28 @@ export default {
   top: -4px;
 }
 .sponsors .platinum .list img {
-  height: 128px;
+  height: 80px;
+}
+.sponsors .platinum .list a {
+  padding: 0.5rem;
 }
 .sponsors .gold .list img {
-  height: 96px;
-}
-.sponsors .silver .list img {
   height: 64px;
 }
+.sponsors .gold .list a {
+  padding: 0.5rem;
+}
+.sponsors .silver .list img {
+  height: 48px;
+}
+.sponsors .silver .list a {
+  padding: 0.4rem;
+}
 .sponsors .bronze .list img {
-  height: 32px;
+  height: 36px;
 }
 .sponsors .bronze .list a {
-  padding: 0.25rem;
+  padding: 0.3rem;
 }
 .sponsors .backer .list img {
   width: 31px;

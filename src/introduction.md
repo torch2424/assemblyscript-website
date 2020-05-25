@@ -10,7 +10,7 @@ AssemblyScript compiles a **strict variant** of [TypeScript](https://www.typescr
 ```ts
 export function fib(n: i32): i32 {
   var a = 0, b = 1
-  for (let i = 0; i < n; i++) {
+  for (let i = 2; i < n; i++) {
     let t = a + b; a = b; b = t
   }
   return b
