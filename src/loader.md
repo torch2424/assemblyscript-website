@@ -13,7 +13,6 @@ loader.instantiate(
   // Binary to instantiate
   fetch("optimized.wasm"), // or fs.readFileSync
                            // or fs.promises.readFile
-                           // or a fetch response
                            // or just a buffer
   // Additional imports
   { ... }
@@ -91,7 +90,7 @@ Arrays (or more advanced classes for that matter) require a bit more cooperation
 export function sum(arr: Int32Array): i32 {
   let sum = 0
   for (let i = 0, k = arr.length; i < k; ++i) {
-    sum += arr[i]
+    sum += unchecked(arr[i])
   }
   return sum
 }
@@ -105,9 +104,9 @@ const { __allocArray, _retain, __release } = myModule.exports
 
 function doSum(values) {
   const arrPtr = __retain(__allocArray(Int32Array_ID, values))
-  const sum = sum(arrPtr)
+  const value = sum(arrPtr)
   __release(arrPtr)
-  return sum
+  return value
 }
 
 console.log(doSum([1, 2, 3]))
@@ -257,6 +256,11 @@ The following utility functions are mixed into the module's exports.
   Allocates a new string in the module's memory and returns a pointer to it.
 
 * ```ts
+  function __allocArray(id: number, values: number[]): number
+  ```
+  Allocates a new array in the module's memory and returns a pointer to it. Automatically retains interior pointers. The `id` is the unique runtime id of the respective array class. If you are using `Int32Array` for example, the best way to know the id is an `export const Int32Array_ID = idof<Int32Array>()`. When done with the array, make sure to `__release` it.
+
+* ```ts
   function __getString(ptr: number): string
   ```
   Copies a string's value from the module's memory to a JavaScript string. `ptr` must not be zero.
@@ -313,11 +317,6 @@ The runtime interface is directly exported by the module, so also present as par
   Allocates an instance of the class represented by the specified id. If you are using `MyClass` for example, the best way to know the id and the necessary size is an `export const MYCLASS_ID = idof<MyClass>()` and an `export const MYCLASS_SIZE = offsetof<MyClass>()`. Afterwards, use the respective views to assign values to the class's memory while making sure to retain interior references to other managed objects once. When done with the class, make sure to `__release` it, which will automatically release any interior references once the class becomes collected.
 
 * ```ts
-  function __allocArray(id: number, values: number[]): number
-  ```
-  Allocates a new array in the module's memory and returns a pointer to it. Automatically retains interior pointers. The `id` is the unique runtime id of the respective array class. If you are using `Int32Array` for example, the best way to know the id is an `export const Int32Array_ID = idof<Int32Array>()`. When done with the array, make sure to `__release` it.
-
-* ```ts
   function __instanceof(ptr: number, baseId: number): boolean
   ```
   Tests whether an object is an instance of the class represented by the specified `baseId`.
@@ -327,9 +326,9 @@ The runtime interface is directly exported by the module, so also present as par
   ```
   Forces a cycle collection. Only relevant if objects potentially forming reference cycles are used.
 
-## Trading convenience for efficiency
+## Convenience vs. efficiency
 
-Making the loader's API any more convenient has its trade-offs. One would either have to include extended type information with the module itself or generate an additional JavaScript file of glue code that does \(and hides\) all the lifting. As such, one should consider the loader as a small and efficient building block that can do it all, yet does not sacrifice efficiency for convenience. If that's not exactly what you are looking for, you might like to take a look at more convenient tools below. Just remember that these have trade-offs.
+Making the loader's API any more convenient has its tradeoffs. One would either have to include extended type information with the module itself or generate an additional JavaScript file of glue code that does (and hides) all the lifting. As such, one can consider the loader as a small and efficient building block that can do it all, yet does not sacrifice efficiency. The design choice here is that an efficient helper can be wrapped in a way that it becomes more convenient, but it's often not possible anymore to make a convenient helper more efficient the other way around. However, if that's not exactly what you are looking for, take a look at more convenient tools below. Just remember that these have tradeoffs.
 
 ### More convenient tools
 

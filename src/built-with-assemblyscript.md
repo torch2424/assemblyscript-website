@@ -4,7 +4,7 @@ description: A place for all things AssemblyScript. Feel free to add your projec
 
 # Built with AssemblyScript
 
-A place for all things AssemblyScript. Feel free to add your projects and applications, in alphabetical order.
+A place for all things AssemblyScript. Feel free to add your projects and applications.
 
 ## Benchmarks
 
