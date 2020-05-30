@@ -7,14 +7,19 @@
   "scripts": {
     "start": "vuepress dev src --host localhost",
     "build": "vuepress build src",
-    "serve": "vuepress serve src"
+    "serve": "vuepress serve src",
+    "preinstall": "npx npm-force-resolutions"
   },
   "devDependencies": {
     "@vuepress/plugin-html-redirect": "^0.1.2",
     "monaco-editor": "^0.20.0",
     "monaco-editor-webpack-plugin": "^1.9.0",
+    "node-fetch": "^2.6.0",
     "prism-themes": "^1.4.0",
     "vuepress": "^1.5.0",
     "vuepress-plugin-serve": "^2.0.3"
+  },
+  "resolutions": {
+    "watchpack": "1.6.1"
   }
 }

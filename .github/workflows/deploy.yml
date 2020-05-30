@@ -17,6 +17,7 @@ jobs:
     - name: Build
       run: |
         npm ci --no-audit
+        node scripts/update-data
         npm run build
     - name: Deploy
       env:

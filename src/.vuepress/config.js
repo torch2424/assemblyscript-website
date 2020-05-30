@@ -41,7 +41,6 @@ module.exports = {
     '**/*.vue'
   ],
   plugins: [
-    'src/.vuepress/plugin',
     '@vuepress/plugin-html-redirect',
     'vuepress-plugin-serve'
   ],
