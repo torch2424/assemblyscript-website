@@ -184,6 +184,7 @@ export default {
 .editor .tabs {
   background: #2d2d2d;
   padding: 10px 10px 0 10px;
+  user-select: none;
 }
 .editor .tab {
   color: #aaa;
@@ -196,7 +197,6 @@ export default {
   background-position: 8px center;
   display: inline-block;
   cursor: pointer;
-  user-select: none;
 }
 .editor .tab:hover {
   background-color: #3e3e3e;

@@ -87,6 +87,11 @@ export default {
 </script>
 
 <style scoped>
+.sponsors {
+  border: 1px solid #eee;
+  background: #fafbfc;
+  padding: 0 0.5rem 1.5rem;
+}
 .sponsors h3 {
   text-align: center;
   border: 0;
