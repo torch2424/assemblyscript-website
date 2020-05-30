@@ -45,43 +45,45 @@
   position: absolute;
   height: 120px;
   width: 120px;
-  top: 154px;
-  left: -29px;
+  top: 150px;
+  left: -25px;
   transform: rotate(-135deg);
   transform-origin: top center;
+  opacity: 0.99;
 }
 #logo .flame-wrapper {
   animation: logo-burn 3ms ease-in infinite;
+  filter: brightness(120%);
 }
 #logo .red {
   width: 80px;
   height: 80px;
   background: orangered;
-  box-shadow: 0px 0px 10px 5px orangered;
+  box-shadow: 0px 0px 5px 3px red;
 }
 #logo .orange {
   left: 10px;
   width: 60px;
   height: 60px;
   background: orange;
-  box-shadow: 0px 0px 12px 6px orange;
+  box-shadow: 0px 0px 12px 4px orange;
 }
 #logo .gold {
   left: 18px;
   width: 45px;
   height: 45px;
   background: gold;
-  box-shadow: 0px 0px 9px 4px gold;
+  box-shadow: 0px 0px 9px 2px gold;
 }
 #logo .white {
   left: 22px;
   width: 35px;
   height: 35px;
   background: lightyellow;
-  box-shadow: 0px 0px 9px 4px lightyellow;
+  box-shadow: 0px 0px 9px 2px lightyellow;
 }
 #logo .blue {
-  top: 20px;
+  top: 25px;
   left: 32px;
   width: 15px;
   height: 15px;
@@ -89,7 +91,7 @@
   box-shadow: 0px 0px 15px 10px darkblue;
 }
 #logo .black {
-  top: 30px;
+  top: 35px;
   left: 20px;
   width: 40px;
   height: 40px;
@@ -102,10 +104,10 @@
   position: absolute;
 }
 #logo .base-wrapper {
-  top: -20px;
+  top: -25px;
   position: absolute;
   width: 80px;
-  height: 35px;
+  height: 36px;
   overflow: hidden;
 }
 #logo .flame {
@@ -115,11 +117,11 @@
   transform: rotate(-45deg);
 }
 @keyframes logo-burn {
-  0% { transform: rotate(0deg); }
+  0% { transform: rotate(-1deg); }
   20% { transform: rotate(1deg) scaleY(1.05); }
   40% { transform: rotate(-1deg); }
   60% { transform: rotate(1deg); }
   80% { transform: rotate(-1deg) scaleY(0.9); }
-  100% { transform: rotate(0deg); }
+  100% { transform: rotate(1deg); }
 }
 </style>

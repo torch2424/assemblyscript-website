@@ -46,7 +46,7 @@ export default {
   height: 31px;
   border-radius: 50%;
   border: 1px solid #fff;
-  box-shadow: 0 0 0 1px #89a;
+  box-shadow: 0 0 0 1px #007acc;
 }
 .contributors .list a {
   padding: 0.15rem;
