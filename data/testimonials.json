@@ -1,7 +1,7 @@
 [
   {
     "name": "Alon Zakai",
-    "text": "Unlike [other languages, AssemblyScript] is designed with WebAssembly and code size in mind. It's not an existing language that we are using for a new purpose but it's a language designed for [WebAssembly]. It has great wasm-opt integration, in fact it's built with it, and it's very easy to get good code size.",
+    "text": "Unlike [pre-existing languages, AssemblyScript] is designed with WebAssembly and code size in mind. It's not an existing language that we are using for a new purpose but it's a language designed for [WebAssembly]. It has great wasm-opt integration, in fact it's built with it, and it's very easy to get good code size.",
     "title": "Shipping Tiny WebAssembly Builds (WebAssembly Summit)",
     "link": "https://www.youtube.com/watch?v=_lLqZR4ufSI",
     "date": "Feb 10, 2020"

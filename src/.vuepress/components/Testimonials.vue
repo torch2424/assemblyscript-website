@@ -2,10 +2,7 @@
   <div class="testimonials">
     <div v-for="item in testimonials" class="testimonial">
       <img class="logo" :src="'avatars/' + item.name.replace(/ /g, '_') + '.png'" :alt="item.name" />
-      <p>
-        “{{ item.text }}”</span>
-        – <strong>{{ item.name }}</strong>, <a :href="item.link" target="_blank" rel="noopener">{{ item.title }}</a>
-      </p>
+      <p>“{{ item.text }}” – <strong>{{ item.name }}</strong>, <a :href="item.link" target="_blank" rel="noopener">{{ item.title }}</a></p>
     </div>
   </div>
 </template>
@@ -16,9 +13,7 @@ import testimonials from '../../../data/testimonials.json'
 export default {
   data() {
     return {
-      testimonials: testimonials
-        .sort((a,b) => Math.random() - 0.5)
-        .slice(0, 3)
+      testimonials
     }
   }
 }
