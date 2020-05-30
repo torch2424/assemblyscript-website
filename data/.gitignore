@@ -1,1 +1,3 @@
-*.json
+# generated files
+contributors.json
+sponsors.json
