@@ -4,7 +4,7 @@ description: Reinventing the wheel. Again. But with a notch.
 
 # Environment
 
-A WebAssembly environment is more limited than a usual browser environment. AssemblyScript tries to fill the gaps by reimplementing commonly known functionality, besides providing direct access to WebAssembly instructions through built-ins.
+A WebAssembly environment is more limited than a usual browser environment, but AssemblyScript tries to fill the gaps by reimplementing commonly known functionality, besides providing direct access to WebAssembly instructions through built-ins.
 
 ## Standard library
 

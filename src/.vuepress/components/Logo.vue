@@ -49,6 +49,11 @@
   left: -31px;
   transform: rotate(-135deg);
   transform-origin: top center;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+#logo:hover .flame-container {
+  opacity: 0.98;
 }
 #logo .flame-wrapper {
   animation: logo-burn 3ms ease-in infinite;
@@ -71,15 +76,15 @@
   left: 11px;
   width: 40px;
   height: 40px;
-  background: deepskyblue;
-  box-shadow: 0px 0px 9px 2px deepskyblue;
+  background: white;
+  box-shadow: 0px 0px 9px 2px white;
 }
 #logo .d {
   left: 16px;
   width: 30px;
   height: 30px;
-  background: aliceblue;
-  box-shadow: 0px 0px 9px 2px aliceblue;
+  background: dodgerblue;
+  box-shadow: 0px 0px 9px 2px dodgerblue;
 }
 #logo .e {
   top: 25px;

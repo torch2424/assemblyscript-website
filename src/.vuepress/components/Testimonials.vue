@@ -29,45 +29,35 @@ export default {
 }
 .testimonial {
   position: relative;
-  padding: 0.5rem 0 0;
+  padding: 1rem 0;
 }
 .testimonial .logo {
   position: absolute;
-  left: 10px;
-  top: 25px;
+  left: 30px;
+  top: 20px;
   border-radius: 50%;
   width: 64px;
   height: 64px;
   border: 1px solid #fff;
   box-shadow: 0 0 0 1px #007acc;
 }
-.testimonial:nth-child(2) .logo {
-  left: auto; right: 10px;
-}
 .testimonial p {
-  padding-left: 90px;
-  padding-right: 60px;
+  margin: 0 40px 0 110px;
   text-align: justify;
 }
-.testimonial:nth-child(2) p {
-  padding-left: 60px;
-  padding-right: 90px;
-}
-@media only screen and (max-width: 740px) {
-  .testimonial .logo,
-  .testimonial:nth-child(2) .logo {
+@media only screen and (max-width: 720px) {
+  .testimonial .logo {
     position: relative;
     float: left;
-    top: 1.1rem;
+    top: 3px;
     left: 0;
     right: 0;
     width: 48px;
     height: 48px;
     margin: 0 10px 0 0;
   }
-  .testimonial p,
-  .testimonial:nth-child(2) p {
-    padding: 0;
+  .testimonial p {
+    margin: 0;
   }
 }
 </style>
