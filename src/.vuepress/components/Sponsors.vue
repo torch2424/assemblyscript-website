@@ -106,6 +106,9 @@ export default {
   top: 0;
   transition: top 100ms;
 }
+.sponsors .list img {
+  overflow: hidden;
+}
 .sponsors .list a:hover {
   top: -4px;
 }

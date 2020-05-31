@@ -88,7 +88,7 @@ editLink: false
   </p>
 </div>
 
-<style>
+<style scoped>
 #hero {
   margin-top: 2rem;
   text-align: center;
@@ -119,13 +119,10 @@ editLink: false
   padding-bottom: 0;
   color: #3a5169;
 }
-#contributors h3,
-#sponsors h3 {
-  font-weight: 200;
-}
 .action {
   position: relative;
   text-align: center;
+  user-select: none;
 }
 .action a {
   display: inline-block;

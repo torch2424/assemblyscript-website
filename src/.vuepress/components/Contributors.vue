@@ -44,6 +44,7 @@ export default {
 .contributors .list img {
   width: 31px;
   height: 31px;
+  overflow: hidden;
   border-radius: 50%;
   border: 1px solid #fff;
   box-shadow: 0 0 0 1px #007acc;
