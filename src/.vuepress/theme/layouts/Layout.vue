@@ -1,7 +1,7 @@
 <template>
   <div id="le">
     <Layout>
-      <div slot="page-bottom" class="footer">Copyright © 2020 The AssemblyScript Project | Apache-2.0</div>
+      <div slot="page-bottom" class="footer">Copyright © {{ new Date().getFullYear() }} The AssemblyScript Project | Apache-2.0</div>
     </Layout>
   </div>
 </template>

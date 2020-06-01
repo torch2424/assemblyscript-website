@@ -1,7 +1,7 @@
 [
   {
     "name": "Surma",
-    "text": "You are now able to write WebAssembly, without learning a new language, and harness all these benefits WebAssembly might offer you. I think that is kind of powerful. AssemblyScript is absolutely usable, and very enjoyable!",
+    "text": "You are now able to write WebAssembly without learning a new language, and harness all these benefits WebAssembly might offer you. I think that is kind of powerful. AssemblyScript is absolutely usable, and very enjoyable!",
     "title": "WebAssembly for Web Developers (Google I/O ’19)",
     "link": "https://youtu.be/njt-Qzw0mVY",
     "date": "May 8th, 2019"

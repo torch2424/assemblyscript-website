@@ -57,34 +57,10 @@ editLink: false
 </div>
 
 <div id="playground">
-  <h2>Try it out right in your browser!</h2>
-  <Editor runtime="half">
-    <pre lang="ts">
-      /**
-      * Calculates the Fibonacci sequence, such that each number
-      * is the sum of the two preceding ones, starting from 1.
-      */
-      export function fib(n: i32): i32 {
-        var a = 0, b = 1
-        for (let i = 2; i < n; i++) {
-          let t = a + b; a = b; b = t
-        }
-        return b
-      }
-      &#8203;
-      /**
-       * Logs a message to console via an import, as implemented
-       * on and provided to the module by the host side of things.
-       */
-      declare namespace console {
-        export function log(s: string): void
-      }
-      &#8203;
-      console.log('Hello world!')
-    </pre>
-  </Editor>
+  <h2>Try it out right here!</h2>
+  <Editor></Editor>
   <p class="action">
-    <a href="./quick-start.html">Ready for your next adventure? Install locally!</a>
+    <a href="./quick-start.html">Install locally! ⭢</a>
   </p>
 </div>
 
@@ -120,7 +96,6 @@ editLink: false
   color: #3a5169;
 }
 .action {
-  position: relative;
   text-align: center;
   user-select: none;
 }

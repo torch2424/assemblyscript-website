@@ -52,7 +52,7 @@ const tiers = {
   silver   : { minAmount: 2000 },
   bronze   : { minAmount: 200 },
   backer   : { minAmount: 1 }
-};
+}
 
 export default {
   name: 'Sponsors',

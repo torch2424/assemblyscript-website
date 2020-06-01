@@ -1,5 +1,3 @@
-const MonacoEditorPlugin = require('monaco-editor-webpack-plugin')
-
 module.exports = {
   base: '/',
   dest: './dist',
@@ -31,7 +29,11 @@ module.exports = {
     editLinks: true,
     editLinkText: 'Help us to improve this page!',
     sidebar: require('./sidebar'),
-    sidebarDepth: 1
+    sidebarDepth: 1,
+    algolia: {
+      apiKey: '93d3851fc32b3c91918def93e3967b55',
+      indexName: 'AssemblyScript_website'
+    }
   },
   evergreen: true,
   extraWatchFiles: [
@@ -44,16 +46,6 @@ module.exports = {
     '@vuepress/plugin-html-redirect',
     'vuepress-plugin-serve'
   ],
-  chainWebpack(config, isServer) {
-    if (isServer) return
-    config
-      .plugin('monaco')
-      .use(MonacoEditorPlugin, [
-        {
-          languages: ['typescript']
-        }
-      ])
-  },
   markdown: {
     extendMarkdown
   }

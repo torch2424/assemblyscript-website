@@ -7,7 +7,6 @@ const repos = [
   "AssemblyScript/working-group",
   "AssemblyScript/community-group",
   "AssemblyScript/examples",
-  "AssemblyScript/docs",
   "AssemblyScript/website"
 ]
 
@@ -44,6 +43,10 @@ function updateSponsors() {
         })
       fs.writeFileSync(__dirname + '/../data/sponsors.json', JSON.stringify(sponsors, null, 2))
     })
+    .catch(err => {
+      console.error(err.stack)
+      process.exit(1)
+    })
 }
 
 /** Updates contributors data by pulling stats from GitHub. */
@@ -54,7 +57,7 @@ function updateContributors() {
       jsons.forEach(json => {
         json
           .forEach(item => {
-            const contributor = contributors[item.id];
+            const contributor = contributors[item.id]
             if (contributor) {
               contributor.count += item.contributions
             } else {
@@ -69,6 +72,10 @@ function updateContributors() {
       })
       const sortedContributors = Object.values(contributors).sort((a, b) => b.count - a.count)
       fs.writeFileSync(__dirname + '/../data/contributors.json', JSON.stringify(sortedContributors, null, 2))
+    })
+    .catch(err => {
+      console.error(err.stack)
+      process.exit(1)
     })
 }
 
