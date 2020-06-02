@@ -20,19 +20,17 @@
       background: #007acc;
       font-size: 12px;
       color: #fff;
-      padding: 5px 10px;
+      padding: 4px 10px;
       height: 25px;
       box-sizing: border-box;
+      text-align: center;
     }
-    #header h1 {
-      float: left;
+    #header h1, #header p {
+      margin: 0;
+      padding: 0;
       font-size: 1em;
-      font-weight: normal;
-      margin: 0;
-    }
-    #header p {
-      float: right;
-      margin: 0;
+      display: inline-block;
+      padding: 0 5px;
     }
     #header a {
       color: #fff;
@@ -53,12 +51,13 @@
     /* Editor tabs */
     #tabs {
       background: #2d2d2d;
-      padding: 10px 10px 0 10px;
+      padding: 0 10px 0 10px;
       user-select: none;
-      height: 46px;
+      height: 36px;
       box-sizing: border-box;
     }
     #tabs .tab {
+      display: inline-block;
       font-size: 0.9rem;
       font-weight: 300;
       padding: 8px 16px 8px 34px;
@@ -91,7 +90,7 @@
     #buttons {
       user-select: none;
       float: right;
-      padding: 15px 40px 0 0;
+      padding: 7px 38px 0 0;
     }
     #buttons a {
       color: #c7c4c7;
@@ -138,7 +137,7 @@
     #options p {
       margin: 0;
       padding: 0.2em 0;
-      color: #fff;
+      color: #eee;
     }
     #options p:first-child {
       padding-top: 0;
@@ -153,7 +152,7 @@
     .pane {
       position: absolute;
       width: 100%;
-      height: calc(100% - 46px);
+      height: calc(100% - 36px);
       z-index: 0;
     }
     .pane.active {
@@ -169,11 +168,8 @@
 </head>
 <body>
   <div id="header">
-    <h1>Definitely not the AssemblyScript playground</h1>
-    <p>
-      <a href="https://assemblyscript.org" target="_blank" rel="noopener">Documentation</a> &nbsp;
-      <a href="https://github.com/AssemblyScript" target="_blank" rel="noopener">GitHub</a>
-    </p>
+    <h1>AssemblyScript Editor</h1>
+    <p><a href="introduction.html" target="_blank" rel="noopener">Language documentation</a></p>
   </div>
   <div id="loading"></div>
   <div id="buttons">
@@ -188,7 +184,8 @@
         <input type="radio" name="option-optimize" id="option-optimize-size" /><label for="option-optimize-size"> For size</label>
         <input type="radio" name="option-optimize" id="option-optimize-none" /><label for="option-optimize-none"> None</label>
       </p>
-      <!--<p><input id="option-debug" type="checkbox" /><label for="option-debug"> Include debug info</label></p>-->
+      <!-- <p><input id="option-debug" type="checkbox" checked /><label for="option-debug"> With debug info</label></p> -->
+      <p><input id="option-assert" type="checkbox" checked /><label for="option-assert"> Keep asserts</label></p>
     </div>
     <h5>Runtime</h5>
     <div class="option">
@@ -206,14 +203,23 @@
       <p><input id="option-exportTable" type="checkbox" /><label for="option-exportTable"> Export table to host</label></p>
       <p><input id="option-importTable" type="checkbox" /><label for="option-importTable"> Import table from host</label></p>
       <p><input id="option-explicitStart" type="checkbox" /><label for="option-explicitStart"> Explicit start function</label></p>
+      <!-- <p><input id="option-pedantic" type="checkbox" /><label for="option-pedantic"> Pedantic diagnostics</label></p> -->
+    </div>
+    <h5>Proposals</h5>
+    <div class="option">
+      <p><input id="option-feature-signextension" type="checkbox" /><label for="option-feature-signextension"> Sign Extension</label></p>
+      <p><input id="option-feature-bulkmemory" type="checkbox" /><label for="option-feature-bulkmemory"> Bulk Memory</label></p>
+      <p><input id="option-feature-simd" type="checkbox" /><label for="option-feature-simd"> SIMD</label></p>
+      <p><input id="option-feature-threads" type="checkbox" /><label for="option-feature-threads"> Threads</label></p>
+      <p><input id="option-feature-referencetypes" type="checkbox" /><label for="option-feature-referencetypes"> Reference Types</label></p>
     </div>
   </div>
   <div id="clipboard" class="popup">
-    Copied to clipboard. If not: Right click and open.
+    Shareable link copied to clipboard.
   </div>
   <div id="tabs">
     <a id="sourceTab" class="tab source active">input.ts</a>
-    <a id="binaryTab" class="tab binary">output.wat ⭯</a>
+    <a id="binaryTab" class="tab binary">output.wat <span title="Click to recompile!">⭯</span></a>
     <a id="canvasTab" class="tab canvas disabled">index.html</a>
   </div>
   <div id="panes">
@@ -244,7 +250,7 @@
       document.getElementById('header').style.display = 'block'
       document.getElementById('buttons').style.paddingRight = '15px'
       document.querySelectorAll('.pane').forEach(element => {
-        element.style.height = 'calc(100% - 46px - 25px)'
+        element.style.height = 'calc(100% - 36px - 25px)'
       })
     }
     const loading = document.getElementById('loading')
@@ -394,6 +400,12 @@
         } else if (document.getElementById('option-optimize-size').checked) {
           options.push('-O3z', '--converge')
         }
+        // if (document.getElementById('option-debug').checked) {
+        //   options.push('--debug')
+        // }
+        if (!document.getElementById('option-assert').checked) {
+          options.push('--noAssert')
+        }
         if (document.getElementById('option-runtime-full').checked) {
           options.push('--runtime', 'full')
         } else if (document.getElementById('option-runtime-half').checked) {
@@ -417,6 +429,28 @@
         }
         if (document.getElementById('option-explicitStart').checked) {
           options.push('--explicitStart')
+        }
+        // if (document.getElementById('option-pedantic').checked) {
+        //   options.push('--pedantic')
+        // }
+        const enable = []
+        if (document.getElementById('option-feature-signextension').checked) {
+          enable.push('sign-extension')
+        }
+        if (document.getElementById('option-feature-bulkmemory').checked) {
+          enable.push('bulk-memory')
+        }
+        if (document.getElementById('option-feature-simd').checked) {
+          enable.push('simd')
+        }
+        if (document.getElementById('option-feature-threads').checked) {
+          enable.push('threads')
+        }
+        if (document.getElementById('option-feature-referencetypes').checked) {
+          enable.push('reference-types')
+        }
+        if (enable.length) {
+          options.push('--enable', enable.join(','))
         }
         return options
       }

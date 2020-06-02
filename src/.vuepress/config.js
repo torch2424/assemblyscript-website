@@ -46,6 +46,12 @@ module.exports = {
     '@vuepress/plugin-html-redirect',
     'vuepress-plugin-serve'
   ],
+  chainWebpack(config, isServer) {
+    if (isServer) return
+    config
+      .entry('custom')
+      .add('./src/.vuepress/custom.js')
+  },
   markdown: {
     extendMarkdown
   }
@@ -53,6 +59,46 @@ module.exports = {
 
 function extendMarkdown(md) {
   const prism = require('prismjs')
+  const he = require('he')
+
+  // Hack into prism to enable our editor component from code blocks
+
+  prism.languages.editor = {}
+  prism.hooks.add('before-tokenize', env => {
+    if (env.language == 'editor') {
+      // Suppress tokenization if an editor
+      let code = env.code
+      if (code.startsWith('/// <editor')) {
+        code = code.substring(code.indexOf("\n") + 1)
+      }
+      env.editorData = code
+      env.code = ''
+    }
+  })
+  prism.hooks.add('after-tokenize', env => {
+    if (env.language == 'editor') {
+      // Emit just one (unmodified) token
+      env.tokens = [
+        new prism.Token('', env.editorData)
+      ]
+      delete env.editorData
+    }
+  })
+  let nextEditorId = 1
+  prism.hooks.add('wrap', env => {
+    if (env.language == 'editor') {
+      // Replace the single token with an editor stub
+      const data = Buffer.from(he.decode(env.content), 'utf8').toString('base64')
+      env.tag = 'div'
+      env.classes.push('editor-wrap')
+      env.attributes.id = 'editor' + nextEditorId
+      env.content = '<a class="maximize" onclick="maximize(\'editor' + nextEditorId + '\')">🗖</a><iframe src="editor.html#' + data + '"></iframe>'
+      ++nextEditorId
+    }
+  })
+
+  // Extend TypeScript grammar
+
   require('prismjs/components/prism-typescript')
   prism.languages.typescript.builtin = new RegExp('\\b(?:' + [
 
