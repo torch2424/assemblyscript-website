@@ -20,6 +20,38 @@ The more important files are:
 * [src/.vuepress/styles/index.styl](./src/.vuepress/styles/index.styl)<br />
   Additional styling rules.
 
+Editor component
+----------------
+
+Markdown files can make use of a custom editor component using the `editor` language tag, like so:
+
+````
+```editor
+#!runtime=none&explicitStart=true
+export function add(a: i32, b: i32): i32 {
+  return a + b
+}
+```
+````
+
+The first line is an optional shebang indicating compiler options. Available options are:
+
+* **optimize** = speed | size | none
+* **runtime** = full | half | stub | none
+* **assert** = true | false
+* **exportMemory** = true | false
+* **importMemory** = true | false
+* **exportTable** = true | false
+* **importTable** = true | false
+* **explicitStart** = true | false
+* **featureSignextension** = true | false
+* **featureBulkmemory** = true | false
+* **featureSimd** = true | false
+* **featureThreads** = true | false
+* **featureReferencetypes** = true | false
+
+The current source and associated compiler options can be serialized into a base64 blob this way. For example, when the 🔗 button is clicked, `document.location.hash` is updated with that blob and the then-sharable link is copied to clipboard.
+
 Building
 --------
 
