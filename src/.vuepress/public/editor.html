@@ -253,12 +253,45 @@
         element.style.height = 'calc(100% - 36px - 25px)'
       })
     }
-    const loading = document.getElementById('loading')
-    const tabs = document.getElementById('tabs')
+
     const sourcePane = document.getElementById('source')
     const binaryPane = document.getElementById('binary')
     const optionsPopup = document.getElementById('options')
     const clipboardPopup = document.getElementById('clipboard')
+
+    const optionOptimizeSpeed = document.getElementById('option-optimize-speed')
+    const optionOptimizeSize = document.getElementById('option-optimize-size')
+    const optionOptimizeNone = document.getElementById('option-optimize-none')
+    const optionAssert = document.getElementById('option-assert')
+    const optionRuntimeFull = document.getElementById('option-runtime-full')
+    const optionRuntimeHalf = document.getElementById('option-runtime-half')
+    const optionRuntimeStub = document.getElementById('option-runtime-stub')
+    const optionRuntimeNone = document.getElementById('option-runtime-none')
+    const optionExportMemory = document.getElementById('option-exportMemory')
+    const optionImportMemory = document.getElementById('option-importMemory')
+    const optionExportTable = document.getElementById('option-exportTable')
+    const optionImportTable = document.getElementById('option-importTable')
+    const optionExplicitStart = document.getElementById('option-explicitStart')
+    const optionFeatureSignextension = document.getElementById('option-feature-signextension')
+    const optionFeatureBulkmemory = document.getElementById('option-feature-bulkmemory')
+    const optionFeatureSimd = document.getElementById('option-feature-simd')
+    const optionFeatureThreads = document.getElementById('option-feature-threads')
+    const optionFeatureReferencetypes = document.getElementById('option-feature-referencetypes')
+
+    const optionCheckboxes = {
+      'assert': optionAssert,
+      'exportMemory': optionExportMemory,
+      'importMemory': optionImportMemory,
+      'exportTable': optionExportTable,
+      'importTable': optionImportTable,
+      'explicitStart': optionExplicitStart,
+      'featureSignextension': optionFeatureSignextension,
+      'featureBulkmemory': optionFeatureBulkmemory,
+      'featureSimd': optionFeatureSimd,
+      'featureThreads': optionFeatureThreads,
+      'featureReferencetypes': optionFeatureReferencetypes
+    }
+
     require([
       'vs/editor/editor.main',
       'https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/sdk.js',
@@ -306,6 +339,12 @@
           source = atob(source)
         } catch (e) {
           source = `/* ${e.message} */`
+        }
+        if (source.startsWith('#!')) {
+          let end = source.indexOf('\n')
+          if (!end) end = source.length
+          deserializeCompilerOptions(source.substring(2, end))
+          source = source.substring(end + 1)
         }
       } else {
         source = ''
@@ -373,15 +412,16 @@
       let clipboardTimer = null
       document.querySelector('.button.share').addEventListener('click', evt => {
         const helper = document.getElementById('clipboardHelper')
-        const link = document.location.protocol + '//' + document.location.host + document.location.pathname + '#' + btoa(sourceEditor.getValue())
-        helper.value = link
+        const serial = btoa('#!' + serializeCompilerOptions() + '\n' + sourceEditor.getValue())
+        document.location.hash = serial
+        helper.value = document.location
         helper.select()
         document.execCommand('copy')
         helper.value = ''
         helper.focus()
         clipboardPopup.style.display = 'block'
         const button = evt.target
-        button.setAttribute('href', link)
+        button.setAttribute('href', document.location)
         const bounds = button.getBoundingClientRect()
         clipboardPopup.style.top = (bounds.y + bounds.height + 12) + 'px'
         clipboardPopup.style.right = (window.innerWidth - (bounds.x + bounds.width / 2) - 12) + 'px'
@@ -392,61 +432,120 @@
         }, 3000)
       })
 
+      function deserializeCompilerOptions(query) {
+        const parts = query.split('&')
+        const options = {}
+        for (let part of parts) {
+          let opt = part.split('=', 2)
+          options[decodeURIComponent(opt[0])] =
+            opt.length > 1
+              ? decodeURIComponent(opt[1])
+              : ''
+        }
+        switch (options.optimize) {
+          case 'speed': optionOptimizeSpeed.checked = true; break
+          case 'size': optionOptimizeSpeed.checked = true; break
+          case 'none': optionOptimizeNone.checked = true; break
+        }
+        switch (options.runtime) {
+          case 'full': optionRuntimeFull.checked = true; break
+          case 'half': optionRuntimeHalf.checked = true; break
+          case 'stub': optionRuntimeStub.checked = true; break
+          case 'none': optionRuntimeNone.checked = true; break
+        }
+        Object.keys(optionCheckboxes).forEach(key => {
+          const element = optionCheckboxes[key]
+          switch (options[key]) {
+            case 'true': element.checked = true; break
+            case 'false': element.checked = false; break
+          }
+        })
+      }
+
+      function serializeCompilerOptions() {
+        let query = []
+        if (optionOptimizeSpeed.checked) {
+          query.push('optimize=speed')
+        } else if (optionOptimizeSize.checked) {
+          query.push('optimize=size')
+        } else if (optionOptimizeNone.checked) {
+          query.push('optimize=none')
+        }
+        if (optionRuntimeFull.checked) {
+          query.push('runtime=full')
+        } else if (optionRuntimeHalf.checked) {
+          query.push('runtime=half')
+        } else if (optionRuntimeStub.checked) {
+          query.push('runtime=stub')
+        } else if (optionRuntimeNone.checked) {
+          query.push('runtime=none')
+        }
+        Object.keys(optionCheckboxes).forEach(key => {
+          const element = optionCheckboxes[key]
+          if (element.checked) {
+            query.push(key + '=true')
+          } else {
+            query.push(key + '=false')
+          }
+        })
+        return query.join('&')
+      }
+
       // Gets user specified compiler options
       function getCompilerOptions() {
         const options = []
-        if (document.getElementById('option-optimize-speed').checked) {
+        if (optionOptimizeSpeed.checked) {
           options.push('-O3')
-        } else if (document.getElementById('option-optimize-size').checked) {
+        } else if (optionOptimizeSize.checked) {
           options.push('-O3z', '--converge')
         }
         // if (document.getElementById('option-debug').checked) {
         //   options.push('--debug')
         // }
-        if (!document.getElementById('option-assert').checked) {
+        if (!optionAssert.checked) {
           options.push('--noAssert')
         }
-        if (document.getElementById('option-runtime-full').checked) {
+        if (optionRuntimeFull.checked) {
           options.push('--runtime', 'full')
-        } else if (document.getElementById('option-runtime-half').checked) {
+        } else if (optionRuntimeHalf.checked) {
           options.push('--runtime', 'half')
-        } else if (document.getElementById('option-runtime-stub').checked) {
+        } else if (optionRuntimeStub.checked) {
           options.push('--runtime', 'stub')
-        } else if (document.getElementById('option-runtime-none').checked) {
+        } else if (optionRuntimeNone.checked) {
           options.push('--runtime', 'none')
         }
-        if (!document.getElementById('option-exportMemory').checked) {
+        if (!optionExportMemory.checked) {
           options.push('--noExportMemory')
         }
-        if (document.getElementById('option-importMemory').checked) {
+        if (optionImportMemory.checked) {
           options.push('--importMemory')
         }
-        if (document.getElementById('option-exportTable').checked) {
+        if (optionExportTable.checked) {
           options.push('--exportTable')
         }
-        if (document.getElementById('option-importTable').checked) {
+        if (optionImportTable.checked) {
           options.push('--importTable')
         }
-        if (document.getElementById('option-explicitStart').checked) {
+        if (optionExplicitStart.checked) {
           options.push('--explicitStart')
         }
         // if (document.getElementById('option-pedantic').checked) {
         //   options.push('--pedantic')
         // }
         const enable = []
-        if (document.getElementById('option-feature-signextension').checked) {
+        if (optionFeatureSignextension.checked) {
           enable.push('sign-extension')
         }
-        if (document.getElementById('option-feature-bulkmemory').checked) {
+        if (optionFeatureBulkmemory.checked) {
           enable.push('bulk-memory')
         }
-        if (document.getElementById('option-feature-simd').checked) {
+        if (optionFeatureSimd.checked) {
           enable.push('simd')
         }
-        if (document.getElementById('option-feature-threads').checked) {
+        if (optionFeatureThreads.checked) {
           enable.push('threads')
         }
-        if (document.getElementById('option-feature-referencetypes').checked) {
+        if (optionFeatureReferencetypes.checked) {
           enable.push('reference-types')
         }
         if (enable.length) {

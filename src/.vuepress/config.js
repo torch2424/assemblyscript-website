@@ -59,43 +59,6 @@ module.exports = {
 
 function extendMarkdown(md) {
   const prism = require('prismjs')
-  const he = require('he')
-
-  // Hack into prism to enable our editor component from code blocks
-
-  prism.languages.editor = {}
-  prism.hooks.add('before-tokenize', env => {
-    if (env.language == 'editor') {
-      // Suppress tokenization if an editor
-      let code = env.code
-      if (code.startsWith('/// <editor')) {
-        code = code.substring(code.indexOf("\n") + 1)
-      }
-      env.editorData = code
-      env.code = ''
-    }
-  })
-  prism.hooks.add('after-tokenize', env => {
-    if (env.language == 'editor') {
-      // Emit just one (unmodified) token
-      env.tokens = [
-        new prism.Token('', env.editorData)
-      ]
-      delete env.editorData
-    }
-  })
-  let nextEditorId = 1
-  prism.hooks.add('wrap', env => {
-    if (env.language == 'editor') {
-      // Replace the single token with an editor stub
-      const data = Buffer.from(he.decode(env.content), 'utf8').toString('base64')
-      env.tag = 'div'
-      env.classes.push('editor-wrap')
-      env.attributes.id = 'editor' + nextEditorId
-      env.content = '<a class="maximize" onclick="maximize(\'editor' + nextEditorId + '\')">🗖</a><iframe src="editor.html#' + data + '"></iframe>'
-      ++nextEditorId
-    }
-  })
 
   // Extend TypeScript grammar
 
@@ -119,4 +82,40 @@ function extendMarkdown(md) {
     'v16x8', 'v32x2', 'Int64Array', 'Uint64Array',
 
   ].join('|') + ')\\b')
+
+  injectEditor(prism)
+}
+
+function injectEditor(prism) {
+  const he = require('he')
+
+  prism.languages.editor = {}
+  prism.hooks.add('before-tokenize', env => {
+    if (env.language == 'editor') {
+      // Suppress tokenization if an editor
+      env.editorData = env.code
+      env.code = ''
+    }
+  })
+  prism.hooks.add('after-tokenize', env => {
+    if (env.language == 'editor') {
+      // Emit just one (unmodified) token
+      env.tokens = [
+        new prism.Token('', env.editorData)
+      ]
+      delete env.editorData
+    }
+  })
+  let nextEditorId = 1
+  prism.hooks.add('wrap', env => {
+    if (env.language == 'editor') {
+      // Replace the single token with an editor frame
+      const data = Buffer.from(he.decode(env.content), 'utf8').toString('base64')
+      env.tag = 'div'
+      env.classes.push('editor-wrap')
+      env.attributes.id = 'editor' + nextEditorId
+      env.content = '<a class="maximize" onclick="maximize(\'editor' + nextEditorId + '\')">🗖</a><iframe src="editor.html#' + data + '"></iframe>'
+      ++nextEditorId
+    }
+  })
 }

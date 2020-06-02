@@ -59,7 +59,7 @@ editLink: false
 <h2>Try it out!</h2>
 
 ```editor
-/// runtime=half
+#!runtime=half
 /**
  * Calculates the Fibonacci sequence, such that each number
  * is the sum of the two preceding ones, starting from 1.
