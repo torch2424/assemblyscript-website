@@ -32,8 +32,8 @@ module.exports = {
     sidebar: require('./sidebar'),
     sidebarDepth: 1,
     algolia: {
-      apiKey: '93d3851fc32b3c91918def93e3967b55',
-      indexName: 'AssemblyScript_website'
+      apiKey: 'ffb8769cdb0f8cfa20d6a307385cb7ba',
+      indexName: 'assemblyscript'
     }
   },
   evergreen: true,
