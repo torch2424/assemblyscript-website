@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "description": "AssebmlyScript's Website.",
   "scripts": {
-    "start": "vuepress dev src --host localhost",
+    "start": "vuepress dev src --host localhost --no-cache",
     "build": "vuepress build src",
     "serve": "vuepress serve src",
     "preinstall": "npx npm-force-resolutions"

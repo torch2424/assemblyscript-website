@@ -60,27 +60,32 @@ editLink: false
 
 ```editor
 #!runtime=half
-/**
- * Calculates the Fibonacci sequence, such that each number
- * is the sum of the two preceding ones, starting from 1.
- */
+/** Calculates the n-th Fibonacci number. */
 export function fib(n: i32): i32 {
   var a = 0, b = 1
-  for (let i = 2; i < n; i++) {
-    let t = a + b; a = b; b = t
+  if (n > 0) {
+    while (--n) {
+      let t = a + b
+      a = b
+      b = t
+    }
+    return b
   }
-  return b
+  return a
 }
 
-/**
- * Logs a message to console via an import, as implemented
- * on and provided to the module by the host side of things.
- */
-declare namespace console {
-  export function log(s: string): void
-}
+#!html
+<script>
+loader.instantiate(module_wasm, { /* imports */ })
+  .then(({ exports }) => {
+    const output = document.getElementById('output')
+    for (let i = 0; i <= 10; ++i) {
+      output.value += `fib(${i}) = ${exports.fib(i)}\n`
+    }
+  })
+</script>
 
-console.log('Hello world!')
+<textarea id="output" style="height: 100%; width: 100%" readonly></textarea>
 ```
 
 <p class="action">

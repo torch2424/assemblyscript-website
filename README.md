@@ -27,28 +27,25 @@ Markdown files can make use of a custom editor component using the `editor` lang
 
 ````
 ```editor
-#!runtime=none&explicitStart=true
+#!optimize=size&runtime=none&noAssert&explicitStart&enable=simd,reference-types
 export function add(a: i32, b: i32): i32 {
   return a + b
 }
 ```
 ````
 
-The first line is an optional shebang indicating compiler options. Available options are:
+The first line is an optional shebang indicating selected compiler options. Available options are:
 
 * **optimize** = speed | size | none
+* **noAssert**?
+* **debug**?
 * **runtime** = full | half | stub | none
-* **assert** = true | false
-* **exportMemory** = true | false
-* **importMemory** = true | false
-* **exportTable** = true | false
-* **importTable** = true | false
-* **explicitStart** = true | false
-* **featureSignextension** = true | false
-* **featureBulkmemory** = true | false
-* **featureSimd** = true | false
-* **featureThreads** = true | false
-* **featureReferencetypes** = true | false
+* **noExportMemory**?
+* **importMemory**?
+* **exportTable**?
+* **importTable**?
+* **explicitStart**?
+* **enable**? = sign-extension?,bulk-memory?,simd?,threads?,reference-types?
 
 The current source and associated compiler options can be serialized into a base64 blob this way. For example, when the 🔗 button is clicked, `document.location.hash` is updated with that blob and the then-sharable link is copied to clipboard.
 
