@@ -31,6 +31,14 @@ Markdown files can make use of a custom editor component using the `editor` lang
 export function add(a: i32, b: i32): i32 {
   return a + b
 }
+
+#!html
+<script>
+loader.instantiate(module_wasm, { /* imports */ })
+  .then(({ exports }) => {
+    console.log(exports.add(1, 2))
+  })
+</script>
 ```
 ````
 

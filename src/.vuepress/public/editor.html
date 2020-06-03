@@ -317,6 +317,7 @@
 
     var module_wat = '(module)\n'
     var module_wasm = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])
+    var didCompile = false
 
     require([
       'vs/editor/editor.main',
@@ -428,13 +429,22 @@
               compile()
             }, 10)
           } else if (element.id == 'playTab') {
-            let html = [
-              '<script>var exports={}<', '/script>',
-              '<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/index.js"><', '/script>',
-              '<script>var loader=exports,module_wasm=new Uint8Array([', module_wasm.join(','), ']);exports=undefined<', '/script>\n\n',
-              htmlEditor.getValue().trimRight()
-            ]
-            playFrame.src = 'data:text/html;base64,' + btoa(html.join(''))
+            function serialize() {
+              return 'data:text/html;base64,' + btoa([
+                '<script>var exports={}<', '/script>',
+                '<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/index.js"><', '/script>',
+                '<script>var loader=exports,module_wasm=new Uint8Array([', module_wasm.join(','), ']);exports=undefined<', '/script>\n\n',
+                htmlEditor.getValue().trimRight()
+              ].join(''))
+            }
+            if (didCompile) {
+              playFrame.src = serialize()
+            } else {
+              playFrame.src = 'data:text/html;base64,Q29tcGlsaW5nLi4u' // Compiling...
+              compile(() => {
+                playFrame.src = serialize()
+              })
+            }
           }
         })
       })
@@ -599,7 +609,7 @@
       }
 
       // Compiles the source to WebAssembly
-      function compile() {
+      function compile(cb) {
         const stdout = asc.createMemoryStream()
         const sources = {
           'module.ts': sourceEditor.getValue()
@@ -630,6 +640,8 @@
               module_wasm = outputs['module.wasm']
               binaryEditor.setValue(output + module_wat)
             }
+            didCompile = true
+            if (cb) cb(err)
           })
         }, 100)
       }

@@ -45,7 +45,11 @@ module.exports = {
   ],
   plugins: [
     '@vuepress/plugin-html-redirect',
-    'vuepress-plugin-serve'
+    'vuepress-plugin-serve',
+    ['vuepress-plugin-sitemap', {
+      hostname: 'https://assemblyscript.org',
+      exclude: ['/404.html']
+    }]
   ],
   chainWebpack(config, isServer) {
     if (isServer) return
