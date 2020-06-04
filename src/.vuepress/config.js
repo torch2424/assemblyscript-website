@@ -15,6 +15,7 @@ module.exports = {
     ['link', { rel: "manifest", href: "/site.webmanifest"}],
     ['link', { rel: "mask-icon", href: "/favicons/safari-pinned-tab.svg", color: "#007acc"}],
     ['link', { rel: "shortcut icon", href: "/favicon.ico"}],
+    ['link', { rel: "preconnect", href: "https://cdn.jsdelivr.net"}],
     ['meta', { name: "msapplication-TileColor", content: "#ffffff"}],
     ['meta', { name: "msapplication-config", content: "/browserconfig.xml"}],
     ['meta', { name: "theme-color", content: "#ffffff"}],
@@ -31,8 +32,8 @@ module.exports = {
     sidebar: require('./sidebar'),
     sidebarDepth: 1,
     algolia: {
-      apiKey: '93d3851fc32b3c91918def93e3967b55',
-      indexName: 'AssemblyScript_website'
+      apiKey: 'ffb8769cdb0f8cfa20d6a307385cb7ba',
+      indexName: 'assemblyscript'
     }
   },
   evergreen: true,
@@ -44,7 +45,11 @@ module.exports = {
   ],
   plugins: [
     '@vuepress/plugin-html-redirect',
-    'vuepress-plugin-serve'
+    'vuepress-plugin-serve',
+    ['vuepress-plugin-sitemap', {
+      hostname: 'https://assemblyscript.org',
+      exclude: ['/404.html']
+    }]
   ],
   chainWebpack(config, isServer) {
     if (isServer) return
@@ -92,29 +97,26 @@ function injectEditor(prism) {
   prism.languages.editor = {}
   prism.hooks.add('before-tokenize', env => {
     if (env.language == 'editor') {
-      // Suppress tokenization if an editor
-      env.editorData = env.code
+      env.originalCode = env.code || ''
       env.code = ''
     }
   })
   prism.hooks.add('after-tokenize', env => {
     if (env.language == 'editor') {
-      // Emit just one (unmodified) token
       env.tokens = [
-        new prism.Token('', env.editorData)
+        new prism.Token('', env.originalCode, undefined, env.originalCode, undefined)
       ]
-      delete env.editorData
     }
   })
   let nextEditorId = 1
   prism.hooks.add('wrap', env => {
     if (env.language == 'editor') {
-      // Replace the single token with an editor frame
+      // FIXME: this breaks on reload for some reason
       const data = Buffer.from(he.decode(env.content), 'utf8').toString('base64')
       env.tag = 'div'
       env.classes.push('editor-wrap')
       env.attributes.id = 'editor' + nextEditorId
-      env.content = '<a class="maximize" onclick="maximize(\'editor' + nextEditorId + '\')">🗖</a><iframe src="editor.html#' + data + '"></iframe>'
+      env.content = '<a class="maximize" onclick="maximize(\'editor' + nextEditorId + '\')">🗖</a><iframe title="Editor" src="editor.html#' + data + '"></iframe>'
       ++nextEditorId
     }
   })
